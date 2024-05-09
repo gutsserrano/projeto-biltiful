@@ -8,9 +8,9 @@ namespace projeto_Biltiful.Modulo1
 {
     internal class MainCadastro
     {
-        public static void Main()
+        public static void Executar()
         {
-
+            
         }
     }
 }

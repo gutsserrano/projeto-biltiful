@@ -15,7 +15,7 @@ namespace projeto_Biltiful
                 switch (op)
                 {
                     case 1:
-                        MainCadastro.Main();
+                        MainCadastro.Executar();
                         break;
                     case 2:
                         break;
