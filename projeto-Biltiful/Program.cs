@@ -1,4 +1,6 @@
-﻿namespace projeto_Biltiful
+﻿using projeto_Biltiful.Modulo1;
+
+namespace projeto_Biltiful
 {
     internal class Program
     {
