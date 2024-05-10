@@ -35,9 +35,14 @@ namespace projeto_Biltiful.Modulo1.Entidades
             Situacao = char.Parse(data.Substring(88, 1));
         }
 
-        public Fornecedor(string cnpj, int a)
+        public string FormatarParaArquivo()
         {
-            Cnpj = cnpj;
+            return  $"{Cnpj}" +
+                    $"{RazaoSocial}" +
+                    $"{ConverterDataParaArquivo(DataAbertura)}" +
+                    $"{ConverterDataParaArquivo(UltimaCompra)}" +
+                    $"{ConverterDataParaArquivo(DataCadastro)}" +
+                    $"{Situacao}";
         }
 
         private DateOnly ConverterParaData(string data)
@@ -49,13 +54,18 @@ namespace projeto_Biltiful.Modulo1.Entidades
             return DateOnly.Parse($"{dia}/{mes}/{ano}");
         }
 
+        private string ConverterDataParaArquivo(DateOnly data)
+        {
+            return $"{data.Day:00}{data.Month:00}{data.Year:0000}";
+        }
+
         public static bool VerificarCnpj(string cnpj)
         {
             if (cnpj.Contains(".") || cnpj.Contains("/") || cnpj.Contains("-"))
             {
-                cnpj = cnpj.Replace(".", ""); ;
-                cnpj = cnpj.Replace("/", ""); ;
-                cnpj = cnpj.Replace("-", ""); ;
+                cnpj = cnpj.Replace(".", "");
+                cnpj = cnpj.Replace("/", "");
+                cnpj = cnpj.Replace("-", "");
             }
 
             // Verifica se o tamanho do cnpj é diferente de 14
