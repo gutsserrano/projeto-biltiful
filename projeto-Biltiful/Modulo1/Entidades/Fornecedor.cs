@@ -53,7 +53,7 @@ namespace projeto_Biltiful.Modulo1.Entidades
 
             return DateOnly.Parse($"{dia}/{mes}/{ano}");
         }
-
+      
         private string ConverterDataParaArquivo(DateOnly data)
         {
             return $"{data.Day:00}{data.Month:00}{data.Year:0000}";
