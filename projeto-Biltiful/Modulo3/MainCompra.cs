@@ -7,9 +7,18 @@ using System.Threading.Tasks;
 
 namespace projeto_Biltiful.Modulo3
 {
-    internal class Executar
+    internal class MainCompra
     {
-        public static void Main()
+        public MainCompra()
+        {
+        }
+
+        public void Executar()
+        {
+            Menu();
+        }
+
+        public void Menu()
         {
 
         }
