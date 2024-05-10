@@ -11,10 +11,8 @@ namespace projeto_Biltiful.Modulo4
         List<string> MateriaPrima = new List<string>();
         List<int> QuantidadeMateriaPrima = new List<int>();
 
-        public ItemProducao(List<string> ID_Material)
+        public ItemProducao(List<string> ID_Material, int qnt)
         {
-            Console.Write("\nDigite o número de materiais que compõe o produto: ");
-            int qnt = InserirValor(1, 99999);
             for (int i = 0; i < qnt; i++)
             {
                 bool correto = false;
@@ -74,6 +72,22 @@ namespace projeto_Biltiful.Modulo4
                 txt = $"000{cod_mat}";
             }
             return $"MP{txt}";
+        }
+        public List<string> GetMateriaPrima()
+        {
+            return this.MateriaPrima;
+        }
+        public int GetQuantidadeMateriaPrima(string mp)
+        {
+            int qnt = 0;
+            for(int i = 0; i < this.MateriaPrima.Count; i++)
+            {
+                if (this.MateriaPrima[i] == mp)
+                {
+                    qnt = this.QuantidadeMateriaPrima[i];
+                }
+            }
+            return qnt;
         }
     }
 }
