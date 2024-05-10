@@ -1,5 +1,7 @@
 ﻿using projeto_Biltiful.Modulo1;
+using projeto_Biltiful.Modulo2;
 using projeto_Biltiful.Modulo3;
+using projeto_Biltiful.Modulo4;
 
 namespace projeto_Biltiful
 {
@@ -19,7 +21,7 @@ namespace projeto_Biltiful
                         MainCadastro.Executar();
                         break;
                     case 2:
-                        //MainVenda.Exectar();
+                        MainVenda.Executar();
                         break;
                     case 3:
                         //MainCompra.Executar();
