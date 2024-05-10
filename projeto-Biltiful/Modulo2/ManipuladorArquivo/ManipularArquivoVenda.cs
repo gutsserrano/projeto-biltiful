@@ -37,7 +37,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
 
         void SalvarArquivo(List<Venda> l)
         {
-            StreamWriter sw = new(p + f);
+            StreamWriter sw = new(CaminhoDiretorio);
 
             foreach (var item in l)
             {
@@ -55,7 +55,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
 
             string[] data;
 
-            foreach (var linha in File.ReadAllLines(p + f))
+            foreach (var linha in File.ReadAllLines(CaminhoDiretorio))
             {
                 data = linha.Split(";");
                 l.Add(new());
