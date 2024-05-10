@@ -8,11 +8,11 @@ namespace projeto_Biltiful.Modulo2.Entity
 {
     internal class ItemVenda
     {
-        public int idVenda { get; }
-        public string produto { get; set; }
-        public int quantidade { get; set; }
-        public int valorUnitario { get; set; }
-        public int totalItem { get; set; }
+        public int idVenda { get; }                     //5     (0-4)    
+        public string produto { get; set; }             //13    (5-17)
+        public int quantidade { get; set; }             //3     (18-20)
+        public int valorUnitario { get; set; }          //5     (21-25)
+        public int totalItem { get; set; }              //6     (26-31)
 
         public ItemVenda() { }
 
