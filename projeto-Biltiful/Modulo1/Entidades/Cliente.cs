@@ -73,7 +73,7 @@ namespace projeto_Biltiful.Modulo1.Entidades
             return nome.PadRight(50).Substring(0, 50);
         }
 
-        static bool VerificarCpf(string cpf)
+        public static bool VerificarCpf(string cpf)
         {
             // Verifica se o tamanho do cpf é diferente de 11
             if (cpf.Length != 11)
