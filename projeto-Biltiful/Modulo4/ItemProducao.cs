@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace projeto_Biltiful.Modulo4
 {
-    internal class MainProducao
+    internal class ItemProducao
     {
-        public static void Main()
-        {
-
-        }
     }
 }
