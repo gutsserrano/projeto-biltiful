@@ -10,6 +10,7 @@ namespace projeto_Biltiful
             int op;
             do
             {
+                Console.Clear();
                 op = Menu();
 
                 switch (op)
@@ -18,11 +19,13 @@ namespace projeto_Biltiful
                         MainCadastro.Executar();
                         break;
                     case 2:
+                        //MainVenda.Exectar();
                         break;
                     case 3:
-                        MainCompra.Main();
+                        //MainCompra.Executar();
                         break;
                     case 4:
+                        //MainCadastro.Executar();
                         break;
                 }
 
