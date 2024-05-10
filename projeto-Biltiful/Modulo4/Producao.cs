@@ -30,7 +30,7 @@ namespace projeto_Biltiful.Modulo4
 
         public void MenuProducao(string Diretorio, string Producao, string ItemProducao, string Cosmetico, string Material)
         { // DIretório equivale ao path, enquanto os demais parâmetros, o snomes dos arquivos
-            int Id_Producao = 0;
+            int Id_Producao_Proximo = 0;
             DateOnly Data_Producao;
             string Cod_Barras;
             int Qnt_Producao;
@@ -38,6 +38,7 @@ namespace projeto_Biltiful.Modulo4
             List<string> Historico_Producao = new List<string>();
             List<string> Historico_ItemProducao = new List<string>();
             List<string> ID_Cosmetico = new List<string>();
+            List<string> ID_Produtos = new List<string>();
             List<string> ID_Material = new List<string>();
             List<string> Arquivos = new List<string> { Producao, ItemProducao, Cosmetico, Material };
 
@@ -56,6 +57,8 @@ namespace projeto_Biltiful.Modulo4
                         if (arquivo == Producao)
                         {
                             Historico_Producao.Add(line);
+                            Id_Producao_Proximo = int.Parse(line.Substring(0, 5))+1;
+                            Id_Produtos.Add(line.Substring(13,13));
                         }
                         if (arquivo == ItemProducao)
                         {
@@ -67,30 +70,32 @@ namespace projeto_Biltiful.Modulo4
                         }
                         if (arquivo == Material)
                         {
-                            ID_Material.Add(line.Substring(0, 6));
+                            ID_Material.Add(line.Substring(2, 4));
                         }
                     }
                     sr.Close();
                 }
             } // Lendo e salvando cópia das informações necessárias
-
-
-            /*
-            foreach (string arquivo in Arquivos)
+            int op;
+            do
             {
-                if (File.Exists(Diretorio + arquivo)) // Verificando se existe o arquivo de Producao
+                Console.WriteLine("\nFavor, digite uma opção para a produção:\n" +
+                    "1-) Cadastrar nova produção;\n2-) Localizar Produção;\n3-) Cancelar e Excluir Produção;\n4-) Imprimir Registros;\n5-) Voltar.");
+                op = InserirValor(1, 5);
+                switch (op)
                 {
-                    StreamReader sr = new StreamReader(Diretorio + arquivo);
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-
-                    }
-                    sr.Close();
+                    case 1: // Inserção de novos objetos ItemProducao em Historico_Producao
+                        CadastrarProducao(Id_Producao_Proximo, Historico_Producao, ID_Material, ID_Cosmetico, ID_Produtos);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
                 }
-            } // Lendo e salvando cópia das informações necessárias
-            */
-
+            } while (op!=5);
+            // Gravar nos arquivos
         }
         public int InserirValor(int menor, int maior)
         {
@@ -107,6 +112,29 @@ namespace projeto_Biltiful.Modulo4
 
             } while (valor < menor || valor > maior);
             return valor;
+        }
+        public void Jump()
+        {
+            Console.WriteLine("\nDigite enter para continuar ...");
+            Console.ReadKey();
+            Console.Clear();
+        }
+        public void CadastrarProducao(int indice, List<string> producao, List<string> materia_prima, List<string> produto_final, List<string> produtos_existentes)
+        {   // Cadastrar Produção deve atualizar a variável "Lista Produção"
+            // Id_atual(5 digitos) + Data_atual (8 digitos) + Cod_Barras (13 digitos) + Quantidade_produzida (5 digitos)
+            Console.Write("\nInsira o código do produto que deseja produzir: ");
+            string cod_barras = Console.ReadLine();
+            if (produtos_existentes.Contains(cod_barras))
+            {
+                Console.Write("\nInsira a quantidade a ser produzida: ");
+                int quantidade_a_produzir = int.Parse(Console.ReadLine());
+                ItemProducao item = new ItemProducao(materia_prima);
+            }
+            else
+            {
+                Console.WriteLine("\nProduto não cadastrado até o momento");
+                Jump();
+            }
         }
     }
 
