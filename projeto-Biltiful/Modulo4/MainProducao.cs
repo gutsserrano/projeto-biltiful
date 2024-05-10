@@ -8,9 +8,12 @@ namespace projeto_Biltiful.Modulo4
 {
     internal class MainProducao
     {
-        public static void Main()
+        public MainProducao()
         {
-
+            
+        }
+        public void Executar()
+        {
         }
     }
 }

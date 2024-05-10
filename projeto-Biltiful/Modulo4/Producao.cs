@@ -26,9 +26,12 @@ namespace projeto_Biltiful.Modulo4
         //// Abertura de escrita do arquivo
         // Funções CRUD
         //// Fechamento e escrita do arquivo
-        
-        
         // FUNÇÕES AUXILIARES PARA O MÓDULO
+
+        public void MenuProducao(string Producao, string ItemProducao, string Cosmeticos, string Material)
+        {
+
+        }
         public int InserirValor(int menor,  int maior)
         {
             int valor;
