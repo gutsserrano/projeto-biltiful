@@ -16,12 +16,28 @@ namespace projeto_Biltiful.Modulo2.Entity
 
         public Venda() { }
 
-        public Venda(int id, DateOnly dataVenda, string cliente, float valorTotal)
+        public Venda(int id,  DateOnly dataVenda, string cliente, float valorTotal)
         {
             this.id = id;
             this.dataVenda = dataVenda;
             this.cliente = cliente;
             this.valorTotal = valorTotal;
+        }
+
+        private int gerarId()
+        {
+            string path = @"C:\Biltiful\";
+            string file = "Venda.dat";
+            int novoId = 0;
+
+            ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
+
+            List<Venda> listaVenda = mav.CarregarArquivo();
+
+            novoId = listaVenda.Last().id;
+            novoId++;
+
+            return novoId;
         }
 
         public override string? ToString()
@@ -52,27 +68,85 @@ namespace projeto_Biltiful.Modulo2.Entity
             Console.WriteLine("Digit Cpf da venda: ");
             cpf = Console.ReadLine();
 
-            validarCpf(cpf);
-           
-            do{
-                Console.WriteLine("Digit o valor Total: ");
-
-                try
+            if(validarCpf(cpf))
+            {
+                if (validarIdade(cpf))
                 {
-                    valorT = float.Parse(Console.ReadLine());
+                    if (validarAtividade(cpf))
+                    {
+                        do
+                        {
+                            Console.WriteLine("Digit o valor Total: ");
 
-                }catch(Exception ex)
+                            try
+                            {
+                                valorT = float.Parse(Console.ReadLine());
+
+
+                            }
+                            catch (Exception ex)
+                            {
+                                ex.ToString();
+                            }
+
+
+                        } while (valorT > 99999.99);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Usuario Inativo");
+                    }
+                   
+                }
+                else
                 {
-                    ex.ToString();
+                    Console.WriteLine("Menor de Idade");
                 }
                
+            }
+            else
+            {
+                Console.WriteLine("CPF Invalido");
+            }
 
-            } while(valorT > 99999.99);
-            
-
-            Venda venda = new(1, dataVenda, cpf, valorT);
+            Venda venda = new(gerarId(), dataVenda, cpf, valorT);
 
             return venda;
+        }
+
+        private bool validarAtividade(string? cpf)
+        {
+            string path = @"C:\Biltiful\";
+            string file = "Clientes.dat";
+
+            RecuperarArquivosDeClientes rpC = new RecuperarArquivosDeClientes(path, file);
+            string estaAtivo = rpC.recuperarEstaAtivo(cpf);
+
+            if (estaAtivo.Equals("A"))
+            {
+                return true;
+            } 
+
+            return false;
+
+        }
+
+        private bool validarIdade(string? cpf)
+        {
+            string path = @"C:\Biltiful\";
+            string file = "Clientes.dat";
+             
+            RecuperarArquivosDeClientes rpC = new RecuperarArquivosDeClientes(path, file);
+            DateOnly dataNascimento = rpC.recuperarEData(cpf);
+            DateOnly dataAtual = DateOnly.FromDateTime(DateTime.Now);
+            int idade = dataAtual.Year - dataNascimento.Year;
+
+            if (idade >= 18)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private bool validarCpf(string? cpf)

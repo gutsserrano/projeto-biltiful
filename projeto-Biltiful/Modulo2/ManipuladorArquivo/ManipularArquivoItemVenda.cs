@@ -36,7 +36,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
 
         void SalvarArquivo(List<ItemVenda> l)
         {
-            StreamWriter sw = new(CaminhoDiretorio);
+            StreamWriter sw = new(CaminhoDiretorio + CaminhoArquivo);
 
             foreach (var item in l)
             {
@@ -58,7 +58,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
              valorUnitario             //5     (21-25)
              totalItem                //6     (26-31)*/
 
-            foreach (var linha in File.ReadAllLines(CaminhoDiretorio))
+            foreach (var linha in File.ReadAllLines(CaminhoDiretorio + CaminhoArquivo))
             {
                 int idVenda = int.Parse(linha.Substring(0, 5).Trim());
                 string produto = linha.Substring(5, 13).Trim();

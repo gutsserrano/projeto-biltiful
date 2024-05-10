@@ -30,9 +30,9 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
         {
             List<string> cpf = new();
 
-            foreach (string linha in File.ReadAllLines(CaminhoDiretorio))
+            foreach (string linha in File.ReadAllLines(CaminhoDiretorio + CaminhoArquivo))
             {
-    
+
                 //cliente    11 (13-23)
 
                 string cliente = linha.Substring(13, 11).Trim();
@@ -43,31 +43,43 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             return cpf;
         }
 
-        public List<Venda> CarregarArquivo()
+        internal string recuperarEstaAtivo(string cpf)
         {
-            List<Venda> l = new();
+            var estado = "I";
 
-            foreach (string linha in File.ReadAllLines(CaminhoDiretorio))
+            foreach (string linha in File.ReadAllLines(CaminhoDiretorio + CaminhoArquivo))
             {
-                /*  id                  // 5  (0 - 4)
-                    dataVenda          // 8  (5 - 12)
-                    cliente            // 11 (13-23)
-                    valorTotal         // 7  (24-30)*/
+                if (cpf.Equals(linha.Substring(0, 11)))
 
-                int id = int.Parse(linha.Substring(0, 5).Trim());
-                int dia = int.Parse(linha.Substring(5, 2).Trim());
-                int mes = int.Parse(linha.Substring(7, 2).Trim());
-                int ano = int.Parse(linha.Substring(9, 4).Trim());
-                string cliente = linha.Substring(13, 11).Trim();
-                int valorTotal = int.Parse(linha.Substring(24, 7).Trim());
+                    estado = linha.Substring(86, 1).Trim();
 
-
-
-                l.Add(new(id, new DateOnly(ano, mes, dia), cliente, valorTotal));
             }
 
-            return l;
+            return estado;
         }
 
+        internal DateOnly recuperarEData(string? cpf)
+        {
+            var dataNascimento = new DateOnly();
+
+            foreach (string linha in File.ReadAllLines(CaminhoDiretorio + CaminhoArquivo))
+            {
+                if (cpf.Equals(linha.Substring(0, 11)))
+
+                    dataNascimento = ConverterParaData(linha.Substring(61, 8));
+
+            }
+
+            return dataNascimento;
+        }
+
+        private DateOnly ConverterParaData(string data)
+        {
+            string dia = data.Substring(0, 2);
+            string mes = data.Substring(2, 2);
+            string ano = data.Substring(4, 4);
+
+            return DateOnly.Parse($"{dia}/{mes}/{ano}");
+        }
     }
 }
