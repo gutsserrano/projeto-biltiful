@@ -24,7 +24,7 @@ namespace projeto_Biltiful
                         MainVenda.Executar();
                         break;
                     case 3:
-                        //MainCompra.Executar();
+                        new MainCompra().Executar();
                         break;
                     case 4:
                         //MainCadastro.Executar();
