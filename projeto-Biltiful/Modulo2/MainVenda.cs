@@ -114,6 +114,66 @@ namespace projeto_Biltiful.Modulo2
 
 
         }
+
+        public void ImpressaoRegistros()
+        {
+            string path = @"C:\Biltiful\";
+            string file = "Venda.dat";
+            int opc = 0;
+            int indice = 0;
+
+            ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
+
+            List<Venda> listaVenda = mav.CarregarArquivo();
+            
+            Console.WriteLine("Inicio do Registro de Vendas: " + listaVenda[indice]);
+
+            do
+            {
+
+                Console.WriteLine("Escola se deseja avançar [1], se deseja retroceder  [2], ver o ultimo rigistro [3] ou o primeiro registo[4], ou sair [0]");
+                opc = int.Parse(Console.ReadLine());
+
+                switch (opc)
+                {
+
+                    case 1:
+                        try
+                        {
+                            indice++;
+                            Console.WriteLine(listaVenda[indice]);
+                        } catch(Exception ex) {
+                            Console.WriteLine(ex.Message);
+                        }
+                        break;
+                    case 2:
+                        try
+                        {
+                            indice--;
+                            Console.WriteLine(listaVenda[indice]);
+                        }
+                        catch (Exception ex) {
+                            Console.WriteLine(ex.Message);
+                        }
+                        break;
+                    case 3:
+                        Console.WriteLine(listaVenda.Last().ToString()); 
+                        break;
+                    case 4:
+                        Console.WriteLine(listaVenda.First().ToString());            
+                        break;
+                    default:
+                        Console.WriteLine("Opção não exisente");
+                        break;
+
+                }
+            } while (opc != 0);
+
+
+        }
+
+       
+
         public void Executar()
         {
             int op;
@@ -165,7 +225,7 @@ namespace projeto_Biltiful.Modulo2
                         Excluir(id);  
                         break;
                     case 4:
-                        Console.WriteLine("Impressão por Registro");
+                        ImpressaoRegistros();
                         break;
                     default:
                         Console.WriteLine("Fim dos processos");
@@ -177,6 +237,7 @@ namespace projeto_Biltiful.Modulo2
 
 
         }
+
 
     }
 }

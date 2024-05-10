@@ -27,14 +27,6 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
 
         }
 
-        void MostrarTodos(List<Venda> recievedList)
-        {
-            foreach (Venda Venda in recievedList)
-            {
-                Console.WriteLine(Venda.ToString());
-            }
-        }
-
         public void SalvarArquivo(List<Venda> l)
         {
             StreamWriter sw = new(CaminhoDiretorio + CaminhoArquivo);
