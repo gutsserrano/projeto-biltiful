@@ -18,7 +18,7 @@ namespace projeto_Biltiful.Modulo1.Entidades
         public Fornecedor(string cnpj, string razaoSocial, DateOnly dataAbertura)
         {
             Cnpj = cnpj;
-            RazaoSocial = razaoSocial;
+            RazaoSocial = FormatarRazaoSocial(razaoSocial);
             DataAbertura = dataAbertura;
             UltimaCompra = DateOnly.FromDateTime(DateTime.Now);
             DataCadastro = DateOnly.FromDateTime(DateTime.Now);
@@ -57,6 +57,11 @@ namespace projeto_Biltiful.Modulo1.Entidades
         private string ConverterDataParaArquivo(DateOnly data)
         {
             return $"{data.Day:00}{data.Month:00}{data.Year:0000}";
+        }
+
+        private string FormatarRazaoSocial(string nome)
+        {
+            return nome.PadRight(50).Substring(0, 50);
         }
 
         public static bool VerificarCnpj(string cnpj)
