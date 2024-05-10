@@ -27,7 +27,7 @@ namespace projeto_Biltiful.Modulo1.ManipuladorArquivos
             }
         }
 
-        public List<Cliente> Recuperar(string caminho, string arquivo)
+        public List<Cliente> Recuperar()
         {
             List<Cliente> clientes = new();
 
@@ -52,40 +52,121 @@ namespace projeto_Biltiful.Modulo1.ManipuladorArquivos
 
         public void Cadastrar()
         {
-            Console.Clear();
-            Console.WriteLine("**Cadastrar Cliente");
+            List<Cliente> clientes = Recuperar();
 
             string cpf;
             string nome;
             DateOnly dataNasc;
             char sexo;
-            DateOnly ultimaCompra;
-            DateOnly dataCadastro;
-            char situacao;
-
             bool cpfValido;
+
+          
+            Console.Clear();
+            Console.WriteLine("**Cadastrar Cliente");
+            do
+            {
+                cpf = Cliente.FormatarCpf(MainCadastro.LerString("Digite o cpf: "));
+                cpfValido = Cliente.VerificarCpf(cpf);
+
+                if (!cpfValido)
+                {
+                    Console.WriteLine("\n**CPF inválido, digite novamente**\n");
+                }
+                else if (clientes.Exists(c => c.Cpf.Equals(cpf)))
+                {
+                    Console.WriteLine("\n**CPF já cadastrado, digite outro**\n");
+                }
+            } while (!cpfValido || clientes.Exists(c => c.Cpf.Equals(cpf)));
+
+
+            nome = MainCadastro.LerString("Digite o nome: ");
+
+            dataNasc = MainCadastro.LerData("Digite a data de nascimento (dd/mm/aaaa): ");
 
             do
             {
-                do
-                {
-                    Console.Write("\nDigite o cpf: ");
-                    cpf = Console.ReadLine();
-                    cpfValido = Cliente.VerificarCpf(cpf);
+                sexo = char.ToUpper(MainCadastro.LerChar("Digite o sexo 'M' ou 'F': "));
+            } while (sexo != 'M' && sexo != 'F');
 
-                    if (!cpfValido)
-                    {
-                        Console.WriteLine("\n**CPF inválido, digite novamente**\n");
-                    }
-                } while (!cpfValido);
+            clientes.Add(new Cliente(cpf, nome, dataNasc, sexo));
+            Salvar(clientes);
 
-                Console.Write("\nDigite o nome: ");
-            } while ();
+            Console.WriteLine("\n**Cliente cadastrado com sucesso!**\n");
+            Console.ReadKey();
         }
 
         public void Editar()
         {
-            // Edita um Cliente específico
+            List<Cliente> clientes = Recuperar();
+
+            string cpf;
+            bool existe = false;
+            Cliente cliente = null;
+
+            cpf = Cliente.FormatarCpf(MainCadastro.LerString("Digite o cpf: "));
+
+            foreach(Cliente c in clientes)
+            {
+                if(cpf.Equals(c.Cpf))
+                {
+                    cliente = c;
+                    existe = true;
+                    break;
+                }
+            }
+
+            if (!existe)
+            {
+                Console.WriteLine("\n**Cliente não encontrado**\n");
+            }
+            else
+            {
+                switch (MenuEditar())
+                {
+                    case 1:
+                        cliente.Nome = MainCadastro.LerString("Digite o novo nome: ");
+                        break;
+                    case 2:
+                        cliente.DataNascimento = MainCadastro.LerData("Digite a nova Data de nascimento: ");
+                        break;
+                    case 3:
+                        do
+                        {
+                            cliente.Sexo = char.ToUpper(MainCadastro.LerChar("Digite o sexo 'M' ou 'F': "));
+                        } while (cliente.Sexo != 'M' && cliente.Sexo != 'F');
+                        break;
+                    case 4:
+                        cliente.Situacao = cliente.Situacao == 'A' ? 'I' : 'A';
+                        break;
+                    default:
+                        return;
+                }
+                
+                Salvar(clientes);
+                Console.WriteLine("\n**Atributos alterados com sucesso!**");
+            }
+
+            Console.ReadKey();
         }
+
+        private int MenuEditar()
+        {
+            int op;
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Qual atributo do Cliente deseja editar?");
+                Console.WriteLine("1 - Nome");
+                Console.WriteLine("2 - Data de nascimento");
+                Console.WriteLine("3 - Sexo");
+                Console.WriteLine("4 - Alterar situação");
+                Console.WriteLine("0 - Sair");
+                op = MainCadastro.LerInt("op: ");
+
+            } while (op < 0 || op > 4);
+
+            return op;
+        }
+
     }
 }
