@@ -38,7 +38,8 @@ namespace projeto_Biltiful.Modulo2
         {
             string path = @"C:\Biltiful\";
             string file = "Venda.dat";
-            Venda venda = new Venda();
+            bool achado = false;
+
 
             ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
 
@@ -46,12 +47,71 @@ namespace projeto_Biltiful.Modulo2
 
             foreach (var item in listaVenda)
             {
-                if(id == item.id)
+                if (id == item.id)
                 {
+                    achado = true;
                     Console.WriteLine(item.ToString());
                     Console.ReadKey();
+                    break;
+                } else
+                {
+                    achado = false;
+
+                   
                 }
             }
+
+            if(!achado) {
+
+                Console.WriteLine("Item não encontrado");
+                Console.ReadKey();
+
+            }
+
+        }
+
+
+        private void Excluir(int id)
+        {
+            string path = @"C:\Biltiful\";
+            string file = "Venda.dat";
+            bool achado = false;
+
+            ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
+
+            List<Venda> listaVenda = mav.CarregarArquivo();
+
+            foreach (var item in listaVenda)
+            
+            {
+                if (id == item.id)
+                {
+                    listaVenda.Remove(item);
+                    mav.SalvarArquivo(listaVenda);
+                    achado = true;
+                   
+                    break;
+                }
+                else
+                {
+                    achado = false;
+
+                }
+            }
+
+            if (achado)
+            {
+                Console.WriteLine("Item Excluido com sucesso");
+                Console.ReadKey();
+            
+            }
+            else
+            {
+                Console.WriteLine("Item Não Encontrado");
+                
+                Console.ReadKey();
+            }
+
 
         }
         public void Executar()
@@ -60,6 +120,7 @@ namespace projeto_Biltiful.Modulo2
             do
             {
                 Venda venda = new Venda();
+                int id = 0;
 
                 Console.Clear();
                 Console.WriteLine("Bem vindo ao Menu de Vendas, o que deseja fazer?");
@@ -92,20 +153,16 @@ namespace projeto_Biltiful.Modulo2
                         break;
                     case 2:
                         Console.WriteLine("Digite o Id da Venda: ");
-                        int id = int.Parse(Console.ReadLine());
+                        id = int.Parse(Console.ReadLine());
 
-                        if (venda.validarId(id))
-                        {
-                            Localizar(id);
+                        Localizar(id);
 
-                        }
-                        else
-                        {
-                            Console.WriteLine("Venda fora do Escopo");
-                        }
                         break;
                     case 3:
-                        Console.WriteLine("Exluir");
+                        Console.WriteLine("Digite o Id da Venda: ");
+                        id = int.Parse(Console.ReadLine());
+
+                        Excluir(id);  
                         break;
                     case 4:
                         Console.WriteLine("Impressão por Registro");
@@ -118,7 +175,7 @@ namespace projeto_Biltiful.Modulo2
 
             } while (op != 0);
 
-          
+
         }
 
     }

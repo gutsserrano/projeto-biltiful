@@ -204,22 +204,6 @@ namespace projeto_Biltiful.Modulo2.Entity
 
         }
 
-        internal bool validarId(int id)
-        {
-            string path = @"C:\Biltiful\";
-            string file = "Venda.dat";
-            bool scopo = true;
-
-            ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
-
-            List<Venda> listaVenda = mav.CarregarArquivo();
-
-            if (listaVenda.Count < id)
-            {
-                scopo = false;
-            }
-
-            return scopo;
-        }
+        
     }
 }
