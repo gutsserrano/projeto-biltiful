@@ -79,5 +79,22 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
 
             return DateOnly.Parse($"{dia}/{mes}/{ano}");
         }
+
+        internal string recuperarNomeEDataNascimento(string cliente)
+        {
+            DateOnly nascimento = recuperarEData(cliente);
+            string nome = "";
+
+            foreach (string linha in File.ReadAllLines(CaminhoDiretorio + CaminhoArquivo))
+            {
+                if (cliente.Equals(linha.Substring(0, 11)))
+
+                    nome = linha.Substring(11, 50);
+
+            }
+
+            return "Nome: " + nome.TrimEnd() + " Nascimento: " + nascimento;
+
+        }
     }
 }

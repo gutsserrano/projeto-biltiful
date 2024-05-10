@@ -1,6 +1,7 @@
 ﻿using projeto_Biltiful.Modulo2.ManipuladorArquivo;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace projeto_Biltiful.Modulo2.Entity
         public int id { get; }                       // 5  (0 - 4)
         public DateOnly dataVenda { get; set; }      // 8  (5 - 12)
         public string cliente { get; set; }          // 11 (13-23)
-        public float valorTotal { get; set; }          // 7  (24-30)
+        public float valorTotal { get; set; }        // 7  (24-30)
 
         public Venda() { }
 
@@ -45,7 +46,18 @@ namespace projeto_Biltiful.Modulo2.Entity
 
         public override string? ToString()
         {
-            return "id: " + id + " dataVenda: " + dataVenda.ToString("") + " Cliente: " + cliente + " valor TOtal: " + valorTotal;
+            return "id: " + id + " dataVenda: " + dataVenda.ToString("") + " Cliente: " + ConverterClienteString(cliente) + " valor Total: " + valorTotal.ToString().Insert(valorTotal.ToString().Length - 2,",") ;
+        }
+
+        private string ConverterClienteString(string cliente)
+        {
+            string path = @"C:\Biltiful\";
+            string file = "Cliente.dat";
+
+            RecuperarArquivosDeClientes rpC = new RecuperarArquivosDeClientes(path, file);
+            string nomeData = rpC.recuperarNomeEDataNascimento(cliente);
+
+            return nomeData;
         }
 
         public string FormatarParaArquivo()
@@ -59,7 +71,7 @@ namespace projeto_Biltiful.Modulo2.Entity
         private string ConverterValorParaArquivo(float valor)
         {
 
-            return valor.ToString().PadLeft(7, '0');
+            return valor.ToString().Replace(",","").PadLeft(7, '0');
         }
 
         private string ConverterIdParaArquivo(int id)
@@ -190,6 +202,24 @@ namespace projeto_Biltiful.Modulo2.Entity
             }
             return false;
 
+        }
+
+        internal bool validarId(int id)
+        {
+            string path = @"C:\Biltiful\";
+            string file = "Venda.dat";
+            bool scopo = true;
+
+            ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
+
+            List<Venda> listaVenda = mav.CarregarArquivo();
+
+            if (listaVenda.Count < id)
+            {
+                scopo = false;
+            }
+
+            return scopo;
         }
     }
 }
