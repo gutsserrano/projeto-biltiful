@@ -52,12 +52,20 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
         {
             List<ItemVenda> l = new();
 
-            string[] data;
+            /* idVenda                 //5     (0-4)    
+             produto                  //13    (5-17)
+             quantidade               //3     (18-20)
+             valorUnitario             //5     (21-25)
+             totalItem                //6     (26-31)*/
 
             foreach (var linha in File.ReadAllLines(CaminhoDiretorio))
             {
-                data = linha.Split(";");
-                l.Add(new());
+                int idVenda = int.Parse(linha.Substring(0, 5).Trim());
+                string produto = linha.Substring(5, 13).Trim();
+                int quantidade = int.Parse(linha.Substring(18, 3).Trim());
+                int valorUnitario = int.Parse(linha.Substring(21, 5).Trim());
+                int totalItem = int.Parse(linha.Substring(26, 6).Trim());
+                l.Add(new(idVenda, produto, quantidade, valorUnitario, totalItem));
             }
 
             return l;

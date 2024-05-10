@@ -9,12 +9,12 @@ namespace projeto_Biltiful.Modulo2
 {
     internal class MainVenda
     {
-
-        public static void Executar() { 
-        
+        public MainVenda()
+        {
+            Executar();
         }
-        
-        void CriarMenu()
+
+        public void Executar()
         {
             int op;
             do
@@ -54,9 +54,7 @@ namespace projeto_Biltiful.Modulo2
                     break;
 
             }
-
-
         }
 
-     }
+    }
 }

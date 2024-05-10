@@ -1,19 +1,18 @@
-﻿using System;
+﻿using projeto_Biltiful.Modulo2.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
-using projeto_Biltiful.Modulo2.Entity;
 
 namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
 {
-    internal class ManipularArquivoVenda
+    internal class RecuperarArquivosDeClientes
     {
         protected string CaminhoDiretorio { get; set; }
         protected string CaminhoArquivo { get; set; }
 
-        public ManipularArquivoVenda(string c, string a)
+        public RecuperarArquivosDeClientes(string c, string a)
         {
             CaminhoDiretorio = c;
             CaminhoArquivo = a;
@@ -27,29 +26,24 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
 
         }
 
-        void MostrarTodos(List<Venda> recievedList)
+        public List<string> RecuperarCpf()
         {
-            foreach (Venda Venda in recievedList)
+            List<string> cpf = new();
+
+            foreach (string linha in File.ReadAllLines(CaminhoDiretorio))
             {
-                Console.WriteLine(Venda.ToString());
-            }
-        }
+    
+                //cliente    11 (13-23)
 
-        void SalvarArquivo(List<Venda> l)
-        {
-            StreamWriter sw = new(CaminhoDiretorio);
+                string cliente = linha.Substring(13, 11).Trim();
 
-            foreach (var item in l)
-            {
-
-                sw.WriteLine(item.ToString());
+                cpf.Add(cliente);
             }
 
-            sw.Close();
+            return cpf;
         }
 
-
-        List<Venda> CarregarArquivo()
+        public List<Venda> CarregarArquivo()
         {
             List<Venda> l = new();
 
@@ -61,10 +55,10 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
                     valorTotal         // 7  (24-30)*/
 
                 int id = int.Parse(linha.Substring(0, 5).Trim());
-                int dia = int.Parse(linha.Substring(5, 2).Trim()); 
-                int mes = int.Parse(linha.Substring(7, 2).Trim()); 
-                int ano = int.Parse(linha.Substring(9, 4).Trim()); 
-                string cliente = linha.Substring(13, 11).Trim();   
+                int dia = int.Parse(linha.Substring(5, 2).Trim());
+                int mes = int.Parse(linha.Substring(7, 2).Trim());
+                int ano = int.Parse(linha.Substring(9, 4).Trim());
+                string cliente = linha.Substring(13, 11).Trim();
                 int valorTotal = int.Parse(linha.Substring(24, 7).Trim());
 
 
