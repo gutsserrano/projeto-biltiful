@@ -16,7 +16,7 @@ namespace projeto_Biltiful.Modulo2.Entity
 
         public Venda() { }
 
-        public Venda(int id,  DateOnly dataVenda, string cliente, float valorTotal)
+        public Venda(int id, DateOnly dataVenda, string cliente, float valorTotal)
         {
             this.id = id;
             this.dataVenda = dataVenda;
@@ -28,14 +28,17 @@ namespace projeto_Biltiful.Modulo2.Entity
         {
             string path = @"C:\Biltiful\";
             string file = "Venda.dat";
-            int novoId = 0;
+            int novoId = 1;
 
             ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
 
             List<Venda> listaVenda = mav.CarregarArquivo();
 
-            novoId = listaVenda.Last().id;
-            novoId++;
+            if (listaVenda.Count > 0)
+            {
+                novoId = listaVenda.Last().id;
+                novoId++;
+            }
 
             return novoId;
         }
@@ -47,10 +50,21 @@ namespace projeto_Biltiful.Modulo2.Entity
 
         public string FormatarParaArquivo()
         {
-            return $"{id}" +
+            return $"{ConverterIdParaArquivo(id)}" +
                     $"{ConverterDataParaArquivo(dataVenda)}" +
                     $"{cliente}" +
-                    $"{valorTotal}";
+                    $"{ConverterValorParaArquivo(valorTotal)}";
+        }
+
+        private string ConverterValorParaArquivo(float valor)
+        {
+
+            return valor.ToString().PadLeft(7, '0');
+        }
+
+        private string ConverterIdParaArquivo(int id)
+        {
+            return id.ToString().PadLeft(5, '0');
         }
 
         private string ConverterDataParaArquivo(DateOnly data)
@@ -58,66 +72,10 @@ namespace projeto_Biltiful.Modulo2.Entity
             return $"{data.Day:00}{data.Month:00}{data.Year:0000}";
         }
 
-        internal Venda receberDados()
-        {
-
-            DateOnly dataVenda = DateOnly.FromDateTime(DateTime.Now);
-            string cpf;
-            float valorT = 0;
-
-            Console.WriteLine("Digit Cpf da venda: ");
-            cpf = Console.ReadLine();
-
-            if(validarCpf(cpf))
-            {
-                if (validarIdade(cpf))
-                {
-                    if (validarAtividade(cpf))
-                    {
-                        do
-                        {
-                            Console.WriteLine("Digit o valor Total: ");
-
-                            try
-                            {
-                                valorT = float.Parse(Console.ReadLine());
-
-
-                            }
-                            catch (Exception ex)
-                            {
-                                ex.ToString();
-                            }
-
-
-                        } while (valorT > 99999.99);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Usuario Inativo");
-                    }
-                   
-                }
-                else
-                {
-                    Console.WriteLine("Menor de Idade");
-                }
-               
-            }
-            else
-            {
-                Console.WriteLine("CPF Invalido");
-            }
-
-            Venda venda = new(gerarId(), dataVenda, cpf, valorT);
-
-            return venda;
-        }
-
         private bool validarAtividade(string? cpf)
         {
             string path = @"C:\Biltiful\";
-            string file = "Clientes.dat";
+            string file = "Cliente.dat";
 
             RecuperarArquivosDeClientes rpC = new RecuperarArquivosDeClientes(path, file);
             string estaAtivo = rpC.recuperarEstaAtivo(cpf);
@@ -125,7 +83,7 @@ namespace projeto_Biltiful.Modulo2.Entity
             if (estaAtivo.Equals("A"))
             {
                 return true;
-            } 
+            }
 
             return false;
 
@@ -134,8 +92,8 @@ namespace projeto_Biltiful.Modulo2.Entity
         private bool validarIdade(string? cpf)
         {
             string path = @"C:\Biltiful\";
-            string file = "Clientes.dat";
-             
+            string file = "Cliente.dat";
+
             RecuperarArquivosDeClientes rpC = new RecuperarArquivosDeClientes(path, file);
             DateOnly dataNascimento = rpC.recuperarEData(cpf);
             DateOnly dataAtual = DateOnly.FromDateTime(DateTime.Now);
@@ -152,7 +110,7 @@ namespace projeto_Biltiful.Modulo2.Entity
         private bool validarCpf(string? cpf)
         {
             string path = @"C:\Biltiful\";
-            string file = "Clientes.dat";
+            string file = "Cliente.dat";
             string fileRisco = "Risco.dat";
 
             RecuperarArquivosDeClientes rpC = new RecuperarArquivosDeClientes(path, file);
@@ -169,6 +127,67 @@ namespace projeto_Biltiful.Modulo2.Entity
                 }
             }
 
+            return false;
+
+        }
+
+        internal Venda receberDados(string cpf)
+        {
+
+            DateOnly dataVenda = DateOnly.FromDateTime(DateTime.Now);
+            float valorT = 0;
+          
+            do
+            {
+                Console.WriteLine("Digit o valor Total: ");
+
+                try
+                {
+                    valorT = float.Parse(Console.ReadLine());
+
+
+                }
+                catch (Exception ex)
+                {
+                    ex.ToString();
+                }
+
+
+            } while (valorT > 99999.99);
+           
+
+
+            Venda venda = new(gerarId(), dataVenda, cpf, valorT);
+
+            return venda;
+        }
+
+        internal bool clienteValido(string cpf)
+        {
+            if (validarCpf(cpf))
+            {
+                if (validarIdade(cpf))
+                {
+                    if (validarAtividade(cpf))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Usuario Inativo");
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Menor de Idade");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("CPF Invalido");
+            }
             return false;
 
         }

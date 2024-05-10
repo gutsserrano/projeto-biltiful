@@ -33,9 +33,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             foreach (string linha in File.ReadAllLines(CaminhoDiretorio + CaminhoArquivo))
             {
 
-                //cliente    11 (13-23)
-
-                string cliente = linha.Substring(13, 11).Trim();
+                string cliente = linha.Substring(0, 11).Trim();
 
                 cpf.Add(cliente);
             }
@@ -51,7 +49,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             {
                 if (cpf.Equals(linha.Substring(0, 11)))
 
-                    estado = linha.Substring(86, 1).Trim();
+                    estado = linha.Substring(86, 1);
 
             }
 

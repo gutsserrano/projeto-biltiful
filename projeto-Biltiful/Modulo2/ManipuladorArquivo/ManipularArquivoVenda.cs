@@ -42,7 +42,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             foreach (var item in l)
             {
 
-                sw.WriteLine(item.ToString());
+                sw.WriteLine(item.FormatarParaArquivo());
             }
 
             sw.Close();

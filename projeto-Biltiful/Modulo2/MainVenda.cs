@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using projeto_Biltiful.Modulo2.Entity;
@@ -15,12 +16,12 @@ namespace projeto_Biltiful.Modulo2
             Executar();
         }
 
-        public void Cadastrar()
+        public void Cadastrar(string cpf)
         {
             string path = @"C:\Biltiful\";
             string file = "Venda.dat";
             Venda venda = new Venda();
-            Venda vendaValidada = venda.receberDados();
+            Venda vendaValidada = venda.receberDados(cpf);
 
             ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
 
@@ -52,7 +53,19 @@ namespace projeto_Biltiful.Modulo2
                         Console.WriteLine("Volte sempre");
                         break;
                     case 1:
-                        Cadastrar();
+                        Console.WriteLine("Digite seu Cpf: ");
+                        string cpf = Console.ReadLine();
+                        Venda venda = new Venda();
+
+                        if (venda.clienteValido(cpf))
+                        {
+                            Cadastrar(cpf);
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("Dados invalidos");
+                        }
                         break;
                     case 2:
                         Console.WriteLine("Localizar");
