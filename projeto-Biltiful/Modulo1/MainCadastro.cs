@@ -21,7 +21,7 @@ namespace projeto_Biltiful.Modulo1
         }
         public void Executar()
         {
-            ArquivoCliente.Editar();
+            ArquivoCliente.NavegarListaClientes();
         }
 
         public static string LerString(string msg)

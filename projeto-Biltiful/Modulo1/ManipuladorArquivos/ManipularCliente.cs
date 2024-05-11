@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -39,6 +40,7 @@ namespace projeto_Biltiful.Modulo1.ManipuladorArquivos
 
         public void Salvar(List<Cliente> clientes)
         {
+            clientes.Sort((c1, c2) => c1.Nome.CompareTo(c2.Nome));
             var sw = new StreamWriter(Caminho + Arquivo);
 
             foreach(Cliente cliente in clientes)
@@ -95,6 +97,75 @@ namespace projeto_Biltiful.Modulo1.ManipuladorArquivos
             Console.ReadKey();
         }
 
+        public void NavegarListaClientes()
+        {
+            List<Cliente> clientes = Recuperar();
+
+            Console.Clear();
+            Console.WriteLine("**Navegar Lista de Clientes**\n");
+
+            if (clientes.Count == 0)
+            {
+                Console.WriteLine("A lista de clientes está vazia.");
+                Console.ReadKey();
+                return;
+            }
+
+            int currentIndex = 0;
+            int increment = 1;
+            ConsoleKey key;
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("=================\n");
+                ImprimirCliente(clientes[currentIndex]);
+                Console.WriteLine();
+
+                Console.WriteLine("Pressione 'N' para navegar para o próximo cliente, 'V' para voltar ou 'S' para sair.");
+
+                key = Console.ReadKey(true).Key;
+
+                if (key == ConsoleKey.N)
+                {
+                    currentIndex = (currentIndex + increment + clientes.Count) % clientes.Count;
+                }
+                else if (key == ConsoleKey.V)
+                {
+                    currentIndex = (currentIndex - increment + clientes.Count) % clientes.Count;
+                }
+            } while (key != ConsoleKey.S);
+
+            Console.ReadKey();
+        }
+
+        public void Localizar()
+        {
+            List<Cliente> clientes = Recuperar();
+
+            string cpf;
+            bool existe = false;
+
+            cpf = Cliente.FormatarCpf(MainCadastro.LerString("Digite o cpf: "));
+
+            foreach (Cliente c in clientes)
+            {
+                if (cpf.Equals(c.Cpf))
+                {
+                    ImprimirCliente(c);
+                    existe = true;
+                    break;
+                }
+            }
+
+            if (!existe)
+            {
+                Console.WriteLine("\n**Cliente não encontrado**\n");
+            }
+
+            Console.ReadKey();  
+        }
+
         public void Editar()
         {
             List<Cliente> clientes = Recuperar();
@@ -147,6 +218,15 @@ namespace projeto_Biltiful.Modulo1.ManipuladorArquivos
             }
 
             Console.ReadKey();
+        }
+
+        private void ImprimirCliente(Cliente cliente)
+        {
+            Console.WriteLine("CPF: " + cliente.Cpf);
+            Console.WriteLine("Nome: " + cliente.Nome);
+            Console.WriteLine("Data de nascimento: " + cliente.DataNascimento);
+            Console.WriteLine("Sexo: " + cliente.Sexo);
+            Console.WriteLine("Situação: " + (cliente.Situacao == 'A' ? "Ativo" : "Inativo"));
         }
 
         private int MenuEditar()
