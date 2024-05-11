@@ -9,7 +9,7 @@ namespace projeto_Biltiful
     {
         static void Main(string[] args)
         {
-            int op;
+            int op; 
             do
             {
                 Console.Clear();
@@ -21,7 +21,7 @@ namespace projeto_Biltiful
                         new MainCadastro().Executar();
                         break;
                     case 2:
-                        MainVenda.Executar();
+                        new MainVenda().Executar();
                         break;
                     case 3:
                         new MainCompra().Executar();

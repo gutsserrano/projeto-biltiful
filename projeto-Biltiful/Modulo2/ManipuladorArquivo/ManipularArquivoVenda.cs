@@ -27,33 +27,25 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
 
         }
 
-        void MostrarTodos(List<Venda> recievedList)
+        public void SalvarArquivo(List<Venda> l)
         {
-            foreach (Venda Venda in recievedList)
-            {
-                Console.WriteLine(Venda.ToString());
-            }
-        }
-
-        void SalvarArquivo(List<Venda> l)
-        {
-            StreamWriter sw = new(CaminhoDiretorio);
+            StreamWriter sw = new(CaminhoDiretorio + CaminhoArquivo);
 
             foreach (var item in l)
             {
 
-                sw.WriteLine(item.ToString());
+                sw.WriteLine(item.FormatarParaArquivo());
             }
 
             sw.Close();
         }
 
 
-        List<Venda> CarregarArquivo()
+        public List<Venda> CarregarArquivo()
         {
             List<Venda> l = new();
 
-            foreach (string linha in File.ReadAllLines(CaminhoDiretorio))
+            foreach (string linha in File.ReadAllLines(CaminhoDiretorio + CaminhoArquivo))
             {
                 /*  id                  // 5  (0 - 4)
                     dataVenda          // 8  (5 - 12)
