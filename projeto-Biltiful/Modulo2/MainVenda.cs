@@ -115,6 +115,21 @@ namespace projeto_Biltiful.Modulo2
 
         }
 
+        private void ImpressaoRegistrosItemVenda()
+        {
+            string path = @"C:\Biltiful\";
+            string file = "ItemVenda.dat";
+            ManipularArquivoItemVenda mav = new ManipularArquivoItemVenda(path, file);
+            List<ItemVenda> listaVenda = mav.CarregarArquivo();
+
+            foreach (ItemVenda iVenda in listaVenda)
+            {
+                Console.WriteLine(iVenda.ToString());
+
+            }
+            Console.ReadKey();
+        }
+
         public void ImpressaoRegistros()
         {
             string path = @"C:\Biltiful\";
@@ -143,7 +158,7 @@ namespace projeto_Biltiful.Modulo2
                             indice++;
                             Console.WriteLine(listaVenda[indice]);
                         } catch(Exception ex) {
-                            Console.WriteLine(ex.Message);
+                            Console.WriteLine("Fora do indice");
                         }
                         break;
                     case 2:
@@ -153,7 +168,7 @@ namespace projeto_Biltiful.Modulo2
                             Console.WriteLine(listaVenda[indice]);
                         }
                         catch (Exception ex) {
-                            Console.WriteLine(ex.Message);
+                            Console.WriteLine("Fora do indice");
                         }
                         break;
                     case 3:
@@ -188,6 +203,7 @@ namespace projeto_Biltiful.Modulo2
                 Console.WriteLine("Localizar - [2]");
                 Console.WriteLine("Excluir - [3]");
                 Console.WriteLine("Impressão por Registro - [4]");
+                Console.WriteLine("Impressão Registro Itens Venda - [5]");
                 Console.WriteLine("Sair - [0]");
 
                 op = int.Parse(Console.ReadLine());
@@ -226,6 +242,9 @@ namespace projeto_Biltiful.Modulo2
                         break;
                     case 4:
                         ImpressaoRegistros();
+                        break;
+                    case 5:
+                        ImpressaoRegistrosItemVenda();
                         break;
                     default:
                         Console.WriteLine("Fim dos processos");
