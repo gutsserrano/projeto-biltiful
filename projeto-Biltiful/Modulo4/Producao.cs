@@ -40,7 +40,7 @@ namespace projeto_Biltiful.Modulo4
             List<string> ID_Cosmetico = new List<string>();
             List<string> ID_Produtos = new List<string>();
             List<string> ID_Material = new List<string>();
-            List<string> Arquivos = new List<string> { Producao, ItemProducao, Cosmetico, Material};
+            List<string> Arquivos = new List<string> {Producao, ItemProducao, Cosmetico, Material};
 
             if (!Directory.Exists(Diretorio))
             {
@@ -59,7 +59,7 @@ namespace projeto_Biltiful.Modulo4
                             Historico_Producao.Add(line);
                             Id_Producao_Proximo = int.Parse(line.Substring(0, 5))+1;
                             string codigo_barras_produto = line.Substring(13, 13);
-                            Id_Produtos.Add(codigo_barras_produto);
+                            ID_Produtos.Add(codigo_barras_produto);
                         }
                         if (arquivo == ItemProducao)
                         {
@@ -71,7 +71,7 @@ namespace projeto_Biltiful.Modulo4
                         }
                         if (arquivo == Material)
                         {
-                            ID_Material.Add(line.Substring(2, 4));
+                            ID_Material.Add(line.Substring(0, 6));
                         }
                     }
                     sr.Close();
@@ -88,6 +88,7 @@ namespace projeto_Biltiful.Modulo4
                     case 1: // Inserção de novos objetos ItemProducao em Historico_Producao
                         Console.Write("\nInsira a quantidade a ser produzida: ");
                         int quantidade_a_produzir = InserirValor(1,99999);
+                        int quantidade_materia_prima = InserirValor(2,9999);
                         Historico_Producao = CadastrarProducao(quantidade_a_produzir,Id_Producao_Proximo, Historico_Producao, ID_Material, ID_Cosmetico, ID_Produtos);
                         Historico_ItemProducao = CadastrarMateriaPrima(quantidade_a_produzir,Id_Producao_Proximo, Historico_ItemProducao, ID_Material);
                         break;
@@ -130,8 +131,13 @@ namespace projeto_Biltiful.Modulo4
                         } while (opt != 2);
                         break;
                     case 3:
+                        Console.Write("\nInsira o código da produção (os cinco primeiros digitos): ");
+                        int cod_exclusao = InserirValor(1, 99999);
+                        Historico_Producao = ExcluirProducao(cod_exclusao, Historico_Producao);
+                        Historico_ItemProducao = ExcluirItemProducao(cod_exclusao, Historico_ItemProducao);
                         break;
                     case 4:
+
                         break;
                 }
             } while (op!=5);
@@ -224,6 +230,31 @@ namespace projeto_Biltiful.Modulo4
         public string Hoje()
         {
             return DateTime.Now.ToString("ddMMyyyy");
+        }
+
+        public List<string> ExcluirProducao(int cod_exclusao, List<string> Historico_Producao_Atual)
+        {
+            string codigo = Format5dig(cod_exclusao);
+            for(int i = Historico_Producao_Atual.Count - 1; i> 0; i--)
+            {
+                if (Historico_Producao_Atual[i].Substring(0, 5) == codigo)
+                {
+                    Historico_Producao_Atual.RemoveAt(i);
+                }
+            }
+            return Historico_Producao_Atual;
+        }
+        public List<string> ExcluirItemProducao(int cod_exclusao, List<string> Historico_ItemProducao_Atual)
+        {
+            string codigo = Format5dig(cod_exclusao);
+            for (int i = Historico_ItemProducao_Atual.Count - 1; i > 0; i--)
+            {
+                if (Historico_ItemProducao_Atual[i].Substring(0, 5) == codigo)
+                {
+                    Historico_ItemProducao_Atual.RemoveAt(i);
+                }
+            }
+            return Historico_ItemProducao_Atual;
         }
     }
 
