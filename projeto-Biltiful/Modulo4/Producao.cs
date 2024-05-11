@@ -58,7 +58,8 @@ namespace projeto_Biltiful.Modulo4
                         {
                             Historico_Producao.Add(line);
                             Id_Producao_Proximo = int.Parse(line.Substring(0, 5))+1;
-                            Id_Produtos.Add(line.Substring(13,13));
+                            string codigo_barras_produto = line.Substring(13, 13);
+                            Id_Produtos.Add(codigo_barras_produto);
                         }
                         if (arquivo == ItemProducao)
                         {

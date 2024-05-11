@@ -6,6 +6,8 @@ namespace projeto_Biltiful
     {
         static void Main(string[] args)
         {
+            MainProducao producao = new MainProducao();
+            producao.Executar();
         }
     }
 }
