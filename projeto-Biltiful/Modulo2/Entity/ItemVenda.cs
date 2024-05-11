@@ -86,12 +86,14 @@ namespace projeto_Biltiful.Modulo2.Entity
                 if (!validarProduto(produto))
                 {
                     Console.WriteLine("Produto não encontrado");
+                    Console.ReadKey();
                     new MainVenda().Executar();
                 }
 
                 if (!validarAtivo(produto))
                 {
                     Console.WriteLine("Produto Inativo");
+                    Console.ReadKey();
                     new MainVenda().Executar();
                 }
 
@@ -102,6 +104,7 @@ namespace projeto_Biltiful.Modulo2.Entity
                 if (totalItem >= 1000000)
                 {
                     Console.WriteLine("Ultrapassou os maximo permitido de valor total");
+                    Console.ReadKey();
                     new MainVenda().Executar();
                 }
 

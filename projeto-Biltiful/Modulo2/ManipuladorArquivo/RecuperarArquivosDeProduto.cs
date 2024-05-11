@@ -63,7 +63,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             {
                 if (id.Equals(linha.Substring(0, 13)))
 
-                    estado = linha.Substring(54, 1);
+                    estado = linha.Substring(56, 1);
 
             }
 
