@@ -18,7 +18,7 @@ namespace projeto_Biltiful.Modulo1.Entidades
 
         public Cliente(string cpf, string nome, DateOnly dataNascimento, char sexo)
         {
-            Cpf = cpf;
+            Cpf = FormatarCpf(cpf);
             Nome = FormatarNome(nome);
             DataNascimento = dataNascimento;
             Sexo = sexo;
@@ -46,7 +46,7 @@ namespace projeto_Biltiful.Modulo1.Entidades
         public string FormatarParaArquivo()
         {
             return  $"{Cpf}" +
-                    $"{Nome}" +
+                    $"{FormatarNome(Nome)}" +
                     $"{ConverterDataParaArquivo(DataNascimento)}" +
                     $"{Sexo}" +
                     $"{ConverterDataParaArquivo(DataCadastro)}" +
@@ -73,8 +73,25 @@ namespace projeto_Biltiful.Modulo1.Entidades
             return nome.PadRight(50).Substring(0, 50);
         }
 
-        static bool VerificarCpf(string cpf)
+        public static string FormatarCpf(string cpf)
         {
+            if (cpf.Contains(".") || cpf.Contains("-"))
+            {
+                cpf = cpf.Replace(".", "");
+                cpf = cpf.Replace("-", "");
+            }
+
+            return cpf;
+        }
+
+        public static bool VerificarCpf(string cpf)
+        {
+            if (cpf.Contains(".") || cpf.Contains("-"))
+            {
+                cpf = cpf.Replace(".", "");
+                cpf = cpf.Replace("-", "");
+            }
+
             // Verifica se o tamanho do cpf é diferente de 11
             if (cpf.Length != 11)
             {
@@ -106,9 +123,17 @@ namespace projeto_Biltiful.Modulo1.Entidades
             }
 
             int resto = (resultado * 10) % 11;
+            if (resto == 10)
+                resto = 0;
+
             int digitoUm = int.Parse(str.Substring(9, 1));
 
-            return resto == digitoUm;
+            if(resto == digitoUm)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private static bool ValidacaoDigitoDois(string str)
@@ -124,7 +149,12 @@ namespace projeto_Biltiful.Modulo1.Entidades
 
             int digito2 = int.Parse(str.Substring(10, 1));
 
-            return resto == digito2;
+            if(resto == digito2)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

@@ -94,6 +94,18 @@ namespace projeto_Biltiful.Modulo1.Entidades
             return valido && ValidacaoDigitoUm(cnpj) && ValidacaoDigitoDois(cnpj);
         }
 
+        public static string FormatarCnpj(string cnpj)
+        {
+            if (cnpj.Contains(".") || cnpj.Contains("/") || cnpj.Contains("-"))
+            {
+                cnpj = cnpj.Replace(".", "");
+                cnpj = cnpj.Replace("/", "");
+                cnpj = cnpj.Replace("-", "");
+            }
+
+            return cnpj;
+        }
+
         private static bool ValidacaoDigitoUm(string str)
         {
             int resultado = 0;
