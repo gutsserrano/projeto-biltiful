@@ -8,12 +8,12 @@ namespace projeto_Biltiful.Modulo1.Entidades
 {
     internal class Produto
     {
-        string CodigoBarras { get; set; }    // 13 (00-12)
-        string Nome { get; set; }            // 20 (13-32)
-        float ValorVenda { get; set; }       // 5  (33-37)
-        DateOnly UltimaVenda { get; set; }   // 8  (38-45)
-        DateOnly DataCadastro { get; set; }  // 8  (46-53)
-        char Situacao { get; set; }          // 1  (54-54)
+        public string CodigoBarras { get; set; }    // 13 (00-12)
+        public string Nome { get; set; }            // 20 (13-32)
+        public float ValorVenda { get; set; }       // 5  (33-37)
+        public DateOnly UltimaVenda { get; set; }   // 8  (38-45)
+        public DateOnly DataCadastro { get; set; }  // 8  (46-53)
+        public char Situacao { get; set; }          // 1  (54-54)
 
         public Produto(string codigoBarras, string nome, float valorVenda)
         {

@@ -11,7 +11,7 @@ namespace projeto_Biltiful.Modulo1.ManipuladorArquivos
     internal class ManipularCliente
     {
         string Caminho { get; set; }
-        string Arquivo {  get; set; }
+        string Arquivo { get; set; }
 
         public ManipularCliente(string caminho, string arquivo)
         {
@@ -64,7 +64,7 @@ namespace projeto_Biltiful.Modulo1.ManipuladorArquivos
 
           
             Console.Clear();
-            Console.WriteLine("**Cadastrar Cliente");
+            Console.WriteLine("**Cadastrar Cliente**");
             do
             {
                 cpf = Cliente.FormatarCpf(MainCadastro.LerString("Digite o cpf: "));
@@ -77,8 +77,9 @@ namespace projeto_Biltiful.Modulo1.ManipuladorArquivos
                 else if (clientes.Exists(c => c.Cpf.Equals(cpf)))
                 {
                     Console.WriteLine("\n**CPF já cadastrado, digite outro**\n");
+                    cpfValido = false;
                 }
-            } while (!cpfValido || clientes.Exists(c => c.Cpf.Equals(cpf)));
+            } while (!cpfValido);
 
 
             nome = MainCadastro.LerString("Digite o nome: ");
@@ -135,8 +136,6 @@ namespace projeto_Biltiful.Modulo1.ManipuladorArquivos
                     currentIndex = (currentIndex - increment + clientes.Count) % clientes.Count;
                 }
             } while (key != ConsoleKey.S);
-
-            Console.ReadKey();
         }
 
         public void Localizar()
@@ -220,7 +219,7 @@ namespace projeto_Biltiful.Modulo1.ManipuladorArquivos
             Console.ReadKey();
         }
 
-        private void ImprimirCliente(Cliente cliente)
+        public void ImprimirCliente(Cliente cliente)
         {
             Console.WriteLine("CPF: " + cliente.Cpf);
             Console.WriteLine("Nome: " + cliente.Nome);
