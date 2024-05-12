@@ -76,6 +76,11 @@ namespace projeto_Biltiful.Modulo4
                     }
                     sr.Close();
                 }
+                else
+                {
+                    var aux = File.Create(Diretorio + arquivo);
+                    aux.Close();
+                }
             } // Lendo e salvando cópia das informações necessárias
             int op;
             do
@@ -218,22 +223,15 @@ namespace projeto_Biltiful.Modulo4
         {
 
             // Id_Producao_Proximo, Historico_ItemProducao, ID_Material
-            string item_search = item_producao.Last();
             try
             {
-                foreach (string item in item_producao)
+                string txt = "";
+                ItemProducao produzindo = new ItemProducao(materia_prima, qnt);
+                foreach (String mp in produzindo.GetMateriaPrima())
                 {
-                    if (item == item_search)
-                    {
-                        string txt = "";
-                        ItemProducao produzindo = new ItemProducao(materia_prima, qnt);
-                        foreach (String mp in produzindo.GetMateriaPrima())
-                        {
-                            int qnt_mp = produzindo.GetQuantidadeMateriaPrima(mp.Substring(0, 6));
-                            txt = $"{Format5dig(proxima_producao)}{Hoje()}{mp}{Format5dig(qnt_mp)}";
-                            item_producao.Add(txt);
-                        }
-                    }
+                    int qnt_mp = produzindo.GetQuantidadeMateriaPrima(mp.Substring(0, 6));
+                    txt = $"{proxima_producao:00000}{Hoje()}{mp}{qnt_mp:00000}";
+                    item_producao.Add(txt);
                 }
             }
             catch (InvalidOperationException ex)
