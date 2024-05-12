@@ -76,6 +76,11 @@ namespace projeto_Biltiful.Modulo4
                     }
                     sr.Close();
                 }
+                else
+                {
+                    var aux = File.Create(Diretorio + arquivo);
+                    aux.Close();
+                }
             } // Lendo e salvando cópia das informações necessárias
             int op;
             do
@@ -199,9 +204,9 @@ namespace projeto_Biltiful.Modulo4
             {
                 Console.Write("\nInsira o código de barras do produto que deseja produzir: ");
                 string cod_barras = Console.ReadLine();
-                if (produtos_existentes.Contains(cod_barras))
+                if (produto_final.Contains(cod_barras))
                 {
-                    string codigo = $"{Format5dig(indice)}{Hoje()}{cod_barras}{Format5dig(qnt_producao)}";
+                    string codigo = $"{indice:00000}{Hoje()}{cod_barras}{qnt_producao:00000}";
                     producao.Add(codigo);
                     stop = true;
                 }
@@ -218,22 +223,15 @@ namespace projeto_Biltiful.Modulo4
         {
 
             // Id_Producao_Proximo, Historico_ItemProducao, ID_Material
-            string item_search = item_producao.Last();
             try
             {
-                foreach (string item in item_producao)
+                string txt = "";
+                ItemProducao produzindo = new ItemProducao(materia_prima, qnt);
+                foreach (String mp in produzindo.GetMateriaPrima())
                 {
-                    if (item == item_search)
-                    {
-                        string txt = "";
-                        ItemProducao produzindo = new ItemProducao(materia_prima, qnt);
-                        foreach (String mp in produzindo.GetMateriaPrima())
-                        {
-                            int qnt_mp = produzindo.GetQuantidadeMateriaPrima(mp.Substring(0, 6));
-                            txt = $"{Format5dig(proxima_producao)}{Hoje()}{mp}{Format5dig(qnt_mp)}";
-                            item_producao.Add(txt);
-                        }
-                    }
+                    int qnt_mp = produzindo.GetQuantidadeMateriaPrima(mp.Substring(0, 6));
+                    txt = $"{proxima_producao:00000}{Hoje()}{mp}{qnt_mp:00000}";
+                    item_producao.Add(txt);
                 }
             }
             catch (InvalidOperationException ex)
