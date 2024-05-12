@@ -44,7 +44,7 @@ namespace projeto_Biltiful.Modulo2.Entity
         {
             return "id da Venda : " + idVenda + " Produto: " + produto + " Quantidade: " + quantidade
                 + " Valor Unitario: " + valorUnitario.ToString().Insert(valorUnitario.ToString().Length - 2, ",") +
-                "Total Item: " + totalItem.ToString().Insert(totalItem.ToString().Length - 2, ",");
+                " Total Item: " + totalItem.ToString().Insert(totalItem.ToString().Length - 2, ",");
         }
 
         // Métodos privados de conversão

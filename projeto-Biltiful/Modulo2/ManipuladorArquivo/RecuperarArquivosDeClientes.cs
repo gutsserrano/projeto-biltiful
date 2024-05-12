@@ -93,7 +93,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
 
             }
 
-            return "Nome: " + nome.TrimEnd() + " Nascimento: " + nascimento;
+            return " Nome: " + nome.TrimEnd() + " Nascimento: " + nascimento;
 
         }
     }

@@ -46,7 +46,7 @@ namespace projeto_Biltiful.Modulo2.Entity
 
         public override string? ToString()
         {
-            return "id: " + id + "dataVenda: " + dataVenda.ToString() + " Cliente: " + ConverterClienteString(cliente) + " valor Total: " + valorTotal.ToString().Insert(valorTotal.ToString().Length - 2, ",");
+            return "id: " + id + " dataVenda: " + dataVenda.ToString() + " Cliente: " + ConverterClienteString(cliente) + " valor Total: " + valorTotal.ToString().Insert(valorTotal.ToString().Length - 2, ",");
         }
 
         private string ConverterClienteString(string cliente)
