@@ -21,7 +21,7 @@ namespace projeto_Biltiful.Modulo2
             string path = @"C:\Biltiful\";
             string file = "Venda.dat";
             Venda venda = new Venda();
-            Venda vendaValidada = venda.receberDados(cpf);
+            Venda vendaValidada = venda.ReceberDados(cpf);
 
             ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
 
@@ -217,7 +217,7 @@ namespace projeto_Biltiful.Modulo2
                         Console.WriteLine("Digite seu Cpf: ");
                         string cpf = Console.ReadLine();
 
-                        if (venda.clienteValido(cpf))
+                        if (venda.ClienteValido(cpf))
                         {
                             Cadastrar(cpf);
 

@@ -25,7 +25,7 @@ namespace projeto_Biltiful.Modulo2.Entity
             this.valorTotal = valorTotal;
         }
 
-        private int gerarId()
+        private int GerarId()
         {
             string path = @"C:\Biltiful\";
             string file = "Venda.dat";
@@ -55,7 +55,7 @@ namespace projeto_Biltiful.Modulo2.Entity
             string file = "Cliente.dat";
 
             RecuperarArquivosDeClientes rpC = new RecuperarArquivosDeClientes(path, file);
-            string nomeData = rpC.recuperarNomeEDataNascimento(cliente);
+            string nomeData = rpC.RecuperarNomeEDataNascimento(cliente);
 
             return nomeData;
         }
@@ -84,32 +84,32 @@ namespace projeto_Biltiful.Modulo2.Entity
             return $"{data.Day:00}{data.Month:00}{data.Year:0000}";
         }
 
-        private bool validarAtividade(string? cpf)
+        private bool ValidarAtividade(string? cpf)
         {
             string path = @"C:\Biltiful\";
             string file = "Cliente.dat";
 
             RecuperarArquivosDeClientes rpC = new RecuperarArquivosDeClientes(path, file);
-            string estaAtivo = rpC.recuperarEstaAtivo(cpf);
+            string estaAtivo = rpC.RecuperarEstaAtivo(cpf);
 
             return estaAtivo.Equals("A");
 
         }
 
-        private bool validarIdade(string? cpf)
+        private bool ValidarIdade(string? cpf)
         {
             string path = @"C:\Biltiful\";
             string file = "Cliente.dat";
 
             RecuperarArquivosDeClientes rpC = new RecuperarArquivosDeClientes(path, file);
-            DateOnly dataNascimento = rpC.recuperarEData(cpf);
+            DateOnly dataNascimento = rpC.RecuperarEData(cpf);
             DateOnly dataAtual = DateOnly.FromDateTime(DateTime.Now);
             int idade = dataAtual.Year - dataNascimento.Year;
 
             return idade >= 18;
         }
 
-        private bool validarCpf(string? cpf)
+        private bool ValidarCpf(string? cpf)
         {
             string path = @"C:\Biltiful\";
             string file = "Cliente.dat";
@@ -133,15 +133,15 @@ namespace projeto_Biltiful.Modulo2.Entity
 
         }
 
-        internal Venda receberDados(string cpf)
+        internal Venda ReceberDados(string cpf)
         {
 
             DateOnly dataVenda = DateOnly.FromDateTime(DateTime.Now);
             float valorT = 0;
             ItemVenda itemVenda = new ItemVenda();
-            int id = gerarId();
+            int id = GerarId();
 
-            valorT = itemVenda.gerarItemVenda(cpf, id);
+            valorT = itemVenda.GerarItemVenda(cpf, id);
 
             if (valorT > 9999999)
             {
@@ -155,13 +155,13 @@ namespace projeto_Biltiful.Modulo2.Entity
             return venda;
         }
 
-        internal bool clienteValido(string cpf)
+        internal bool ClienteValido(string cpf)
         {
-            if (validarCpf(cpf))
+            if (ValidarCpf(cpf))
             {
-                if (validarIdade(cpf))
+                if (ValidarIdade(cpf))
                 {
-                    if (validarAtividade(cpf))
+                    if (ValidarAtividade(cpf))
                     {
                         return true;
                     }

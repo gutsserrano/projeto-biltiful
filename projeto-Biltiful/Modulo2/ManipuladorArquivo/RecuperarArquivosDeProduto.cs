@@ -55,7 +55,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             return preco;
         }
 
-        internal string recuperarEstaAtivo(string id)
+        internal string RecuperarEstaAtivo(string id)
         {
             var estado = "I";
 

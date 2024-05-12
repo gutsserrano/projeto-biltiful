@@ -69,7 +69,7 @@ namespace projeto_Biltiful.Modulo2.Entity
         }
 
         // Métodos privados de manipulação de dados
-        public float gerarItemVenda(string cpf, int id)
+        public float GerarItemVenda(string cpf, int id)
         {
             float valorTotal = 0, valorProduto = 0, totalItem = 0;
             int quantidadeProd = 0, quantidadeItem = 0;
@@ -83,21 +83,21 @@ namespace projeto_Biltiful.Modulo2.Entity
                 Console.WriteLine("Digite o Codigo do produto comprado: ");
                 produto = Console.ReadLine();
 
-                if (!validarProduto(produto))
+                if (!ValidarProduto(produto))
                 {
                     Console.WriteLine("Produto não encontrado");
                     Console.ReadKey();
                     new MainVenda().Executar();
                 }
 
-                if (!validarAtivo(produto))
+                if (!ValidarAtivo(produto))
                 {
                     Console.WriteLine("Produto Inativo");
                     Console.ReadKey();
                     new MainVenda().Executar();
                 }
 
-                valorProduto = obterValorProduto(produto);
+                valorProduto = ObterValorProduto(produto);
                 quantidadeItem = ObterQuantidadeItem();
                 totalItem = valorProduto * quantidadeItem;
 
@@ -118,13 +118,13 @@ namespace projeto_Biltiful.Modulo2.Entity
             return valorTotal;
         }
 
-        private bool validarAtivo(string? produto)
+        private bool ValidarAtivo(string? produto)
         {
             string path = @"C:\Biltiful\";
             string file = "Cosmetico.dat";
 
             RecuperarArquivosDeProduto raP = new RecuperarArquivosDeProduto(path, file);
-            string estaAtivo = raP.recuperarEstaAtivo(produto);
+            string estaAtivo = raP.RecuperarEstaAtivo(produto);
 
             return estaAtivo.Equals("A");
         }
@@ -172,7 +172,7 @@ namespace projeto_Biltiful.Modulo2.Entity
             return quantidadeProd;
         }
 
-        private float obterValorProduto(string? produto)
+        private float ObterValorProduto(string? produto)
         {
             string path = @"C:\Biltiful\";
             string file = "Cosmetico.dat";
@@ -188,7 +188,7 @@ namespace projeto_Biltiful.Modulo2.Entity
             return precoProduto;
         }
 
-        private bool validarProduto(string? produto)
+        private bool ValidarProduto(string? produto)
         {
             string path = @"C:\Biltiful\";
             string file = "Cosmetico.dat";
