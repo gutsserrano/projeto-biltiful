@@ -1,4 +1,4 @@
-﻿using projeto_Biltiful.Modulo1;
+using projeto_Biltiful.Modulo1;
 using projeto_Biltiful.Modulo2;
 using projeto_Biltiful.Modulo3;
 using projeto_Biltiful.Modulo4;
@@ -27,7 +27,7 @@ namespace projeto_Biltiful
                         new MainCompra().Executar();
                         break;
                     case 4:
-                        //MainCadastro.Executar();
+                        new MainProducao.Executar();
                         break;
                 }
 
