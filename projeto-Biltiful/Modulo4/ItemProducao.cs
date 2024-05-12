@@ -13,12 +13,12 @@ namespace projeto_Biltiful.Modulo4
 
         public ItemProducao(List<string> ID_Material, int qnt)
         {
-            for (int i = 0; i < qnt; i++)
+            for (int i = 1; i <= qnt; i++)
             {
                 bool correto = false;
                 do
                 {
-                    Console.Write("Insira apenas os números do código da matéria prima: ");
+                    Console.Write("\n\nInsira apenas os números do código da matéria prima: ");
                     int cod_mat = InserirValor(1, 9999);
                     string cod_material = FormatCodMaterial(cod_mat);
                     correto = ID_Material.Contains(cod_material);
@@ -28,8 +28,8 @@ namespace projeto_Biltiful.Modulo4
                     }
                     else
                     {
-                        MateriaPrima.Add($"MP{cod_mat}");
-                        Console.Write($"\nInforme a quantidade do {i+1}º material: ");
+                        MateriaPrima.Add($"{cod_material}");
+                        Console.Write($"\nInforme a quantidade do {i}º material: ");
                         int quantidade = InserirValor(1,99999);
                         QuantidadeMateriaPrima.Add(quantidade);
                     }
@@ -80,7 +80,7 @@ namespace projeto_Biltiful.Modulo4
         public int GetQuantidadeMateriaPrima(string mp)
         {
             int qnt = 0;
-            for(int i = 0; i < this.MateriaPrima.Count; i++)
+            for(int i = 0; i < this.QuantidadeMateriaPrima.Count; i++)
             {
                 if (this.MateriaPrima[i] == mp)
                 {
