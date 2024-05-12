@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using projeto_Biltiful.Modulo1.Entidades;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,18 +23,18 @@ namespace projeto_Biltiful.Modulo3
 {
     internal class Compra
     {
-        int Id { get; set; }
-        DateOnly DataCompra { get; set; }
-        string Fornecedor { get; set; } 
-        int ValorTotal { get; set; }
+        public int Id { get; }
+        public DateOnly DataCompra { get; set; }
+        public string Fornecedor { get; set; }
+        public int ValorTotal { get; set; }
 
         public Compra()
         {
-            //Nào entendi porque o construtor vazio antes do contrutor atributos(Falar com a Ana amanhã)
+            //construtor vazio antes do contrutor, caso precise criar uma compra, editar etc. 
         }
-       
+
         public Compra(int id, DateOnly dataCompra, string fornecedor, int valorTotal)
-       
+
         {
             Id = id;
             DataCompra = dataCompra;
@@ -41,20 +42,67 @@ namespace projeto_Biltiful.Modulo3
             ValorTotal = valorTotal;
         }
 
+        public string FormatarParaArquivo()
+        {
+            return $"{ConverterIdParaArquivo(Id)}" +
+                   $"{ConverterDataParaArquivo(DataCompra)}" +
+                   $"{Fornecedor}" +
+                   $"{ConverterValorParaArquivo(ValorTotal)}";
+        }
+
+        private string ConverterValorParaArquivo(float valor)
+        {
+
+            return valor.ToString().Replace(",", "").PadLeft(7, '0');
+        }
+
+        private string ConverterIdParaArquivo(int id)
+        {
+            return id.ToString().PadLeft(5, '0');
+        }
+
+        private string ConverterDataParaArquivo(DateOnly data)
+        {
+            return $"{data.Day:00}{data.Month:00}{data.Year:0000}";
+        }
+
+        public override string? ToString()
+        {
+            return $"\nID: {Id}" +
+                   $"\nData compra: {DataCompra.ToString()}" +
+                   $"\nFornecedor: {Fornecedor}" +
+                   $"\nValor total: {ValorTotal}";
+        }
+
 
         //cadastra compra
-        public void CadastrarCompra()
+        public void CadastrarCompra(int id, DateOnly dataCompra, string fornecedor, int valorTotal)
         {
-             //Verificar:
-             //- Não permitir id de compra iguais
-             //- Verificar se não atingiu o limite de valor
+            //Verificar:
+            //- Não permitir id de compra iguais
+            //- Verificar se não atingiu o limite de valor
+
+            //Id = id;
+            DataCompra = dataCompra;
+            Fornecedor = fornecedor;
+            ValorTotal = valorTotal;
+
+            if (valorTotal > 9999999)
+            {
+                Console.WriteLine("Valor excedido, refaça compra com valor permitido");
+            }
 
         }
 
         //localiza compra 
-        public void LocalizarCompra(int idCompra)
+        public void LocalizarCompra(int id, DateOnly dataCompra, string fornecedor, int valorTotal)
         {
-                //Um registro específico.
+            //Id = id;
+            DataCompra = dataCompra;
+            Fornecedor = fornecedor;
+            ValorTotal = valorTotal;
+
+            
         }
 
         // Exclui compra
