@@ -199,9 +199,9 @@ namespace projeto_Biltiful.Modulo4
             {
                 Console.Write("\nInsira o código de barras do produto que deseja produzir: ");
                 string cod_barras = Console.ReadLine();
-                if (produtos_existentes.Contains(cod_barras))
+                if (produto_final.Contains(cod_barras))
                 {
-                    string codigo = $"{Format5dig(indice)}{Hoje()}{cod_barras}{Format5dig(qnt_producao)}";
+                    string codigo = $"{indice:00000}{Hoje()}{cod_barras}{qnt_producao:00000}";
                     producao.Add(codigo);
                     stop = true;
                 }
