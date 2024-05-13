@@ -41,7 +41,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             return cpf;
         }
 
-        internal string recuperarEstaAtivo(string cpf)
+        public string RecuperarEstaAtivo(string cpf)
         {
             var estado = "I";
 
@@ -56,7 +56,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             return estado;
         }
 
-        internal DateOnly recuperarEData(string? cpf)
+        public DateOnly RecuperarEData(string? cpf)
         {
             var dataNascimento = new DateOnly();
 
@@ -71,7 +71,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             return dataNascimento;
         }
 
-        private DateOnly ConverterParaData(string data)
+        public DateOnly ConverterParaData(string data)
         {
             string dia = data.Substring(0, 2);
             string mes = data.Substring(2, 2);
@@ -80,9 +80,9 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             return DateOnly.Parse($"{dia}/{mes}/{ano}");
         }
 
-        internal string recuperarNomeEDataNascimento(string cliente)
+        public string RecuperarNomeEDataNascimento(string cliente)
         {
-            DateOnly nascimento = recuperarEData(cliente);
+            DateOnly nascimento = RecuperarEData(cliente);
             string nome = "";
 
             foreach (string linha in File.ReadAllLines(CaminhoDiretorio + CaminhoArquivo))
@@ -93,8 +93,9 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
 
             }
 
-            return "Nome: " + nome.TrimEnd() + " Nascimento: " + nascimento;
+            return " Nome: " + nome.TrimEnd() + " Nascimento: " + nascimento;
 
         }
+
     }
 }

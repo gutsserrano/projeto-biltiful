@@ -21,7 +21,7 @@ namespace projeto_Biltiful.Modulo2
             string path = @"C:\Biltiful\";
             string file = "Venda.dat";
             Venda venda = new Venda();
-            Venda vendaValidada = venda.receberDados(cpf);
+            Venda vendaValidada = venda.ReceberDados(cpf);
 
             ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
 
@@ -38,12 +38,17 @@ namespace projeto_Biltiful.Modulo2
         {
             string path = @"C:\Biltiful\";
             string file = "Venda.dat";
+
+            string fileIV = "ItemVenda.dat";
             bool achado = false;
 
 
             ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
-
             List<Venda> listaVenda = mav.CarregarArquivo();
+
+
+            ManipularArquivoItemVenda mavIV = new ManipularArquivoItemVenda(path, fileIV);
+            List<ItemVenda> listaItemVenda = mavIV.CarregarArquivo();
 
             foreach (var item in listaVenda)
             {
@@ -51,6 +56,14 @@ namespace projeto_Biltiful.Modulo2
                 {
                     achado = true;
                     Console.WriteLine(item.ToString());
+                    
+                    foreach (ItemVenda iVenda in listaItemVenda)
+                    {
+                        if (iVenda.idVenda == id)
+
+                            Console.WriteLine(iVenda.ToString());
+                    }
+
                     Console.ReadKey();
                     break;
                 } else
@@ -70,78 +83,76 @@ namespace projeto_Biltiful.Modulo2
 
         }
 
-
         private void Excluir(int id)
         {
             string path = @"C:\Biltiful\";
             string file = "Venda.dat";
+            string fileIV = "ItemVenda.dat";
             bool achado = false;
 
             ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
-
             List<Venda> listaVenda = mav.CarregarArquivo();
 
+            ManipularArquivoItemVenda mavIv = new ManipularArquivoItemVenda(path, fileIV);
+            List<ItemVenda> listaItemVenda = mavIv.CarregarArquivo();
+
             foreach (var item in listaVenda)
-            
             {
                 if (id == item.id)
                 {
-                    listaVenda.Remove(item);
-                    mav.SalvarArquivo(listaVenda);
-                    achado = true;
-                   
-                    break;
-                }
-                else
-                {
-                    achado = false;
 
+                    achado = true;
+                                     
                 }
+
             }
 
             if (achado)
             {
-                Console.WriteLine("Item Excluido com sucesso");
+                listaVenda.RemoveAll(item => item.id == id);
+                mav.SalvarArquivo(listaVenda);
+
+                listaItemVenda.RemoveAll(item => item.idVenda == id);
+                mavIv.SalvarArquivo(listaItemVenda);
+
+                Console.WriteLine("Item Excluído com sucesso");
                 Console.ReadKey();
-            
             }
             else
             {
                 Console.WriteLine("Item Não Encontrado");
-                
                 Console.ReadKey();
             }
-
-
-        }
-
-        private void ImpressaoRegistrosItemVenda()
-        {
-            string path = @"C:\Biltiful\";
-            string file = "ItemVenda.dat";
-            ManipularArquivoItemVenda mav = new ManipularArquivoItemVenda(path, file);
-            List<ItemVenda> listaVenda = mav.CarregarArquivo();
-
-            foreach (ItemVenda iVenda in listaVenda)
-            {
-                Console.WriteLine(iVenda.ToString());
-
-            }
-            Console.ReadKey();
-        }
+           
+         }
 
         public void ImpressaoRegistros()
         {
+
+            string fileIV = "ItemVenda.dat";
+            
             string path = @"C:\Biltiful\";
             string file = "Venda.dat";
             int opc = 0;
             int indice = 0;
 
+            Console.ReadKey();
             ManipularArquivoVenda mav = new ManipularArquivoVenda(path, file);
-
             List<Venda> listaVenda = mav.CarregarArquivo();
+
+            ManipularArquivoItemVenda mavIV = new ManipularArquivoItemVenda(path, fileIV);
+            List<ItemVenda> listaItemVenda = mavIV.CarregarArquivo();
             
             Console.WriteLine("Inicio do Registro de Vendas: " + listaVenda[indice]);
+
+
+            foreach (ItemVenda iVenda in listaItemVenda)
+            {
+                if(iVenda.idVenda == listaItemVenda[indice].idVenda)
+               
+                    Console.WriteLine(iVenda.ToString());
+
+            }
 
             do
             {
@@ -157,7 +168,16 @@ namespace projeto_Biltiful.Modulo2
                         {
                             indice++;
                             Console.WriteLine(listaVenda[indice]);
-                        } catch(Exception ex) {
+                            foreach (ItemVenda iVenda in listaItemVenda)
+                            {
+                                if (iVenda.idVenda == listaItemVenda[indice].idVenda)
+
+                                    Console.WriteLine(iVenda.ToString());
+
+                            }
+
+                        }
+                        catch (Exception ex) {
                             Console.WriteLine("Fora do indice");
                         }
                         break;
@@ -166,16 +186,40 @@ namespace projeto_Biltiful.Modulo2
                         {
                             indice--;
                             Console.WriteLine(listaVenda[indice]);
+                            foreach (ItemVenda iVenda in listaItemVenda)
+                            {
+                                if (iVenda.idVenda == listaItemVenda[indice].idVenda)
+
+                                    Console.WriteLine(iVenda.ToString());
+
+                            }
+
                         }
                         catch (Exception ex) {
                             Console.WriteLine("Fora do indice");
                         }
                         break;
                     case 3:
-                        Console.WriteLine(listaVenda.Last().ToString()); 
+                        Console.WriteLine(listaVenda.Last().ToString());
+                        foreach (ItemVenda iVenda in listaItemVenda)
+                        {
+                            if (iVenda.idVenda == listaItemVenda.Last().idVenda)
+
+                                Console.WriteLine(iVenda.ToString());
+
+                        }
+
                         break;
                     case 4:
-                        Console.WriteLine(listaVenda.First().ToString());            
+                        Console.WriteLine(listaVenda.First().ToString());
+                        foreach (ItemVenda iVenda in listaItemVenda)
+                        {
+                            if (iVenda.idVenda == listaItemVenda.First().idVenda)
+
+                                Console.WriteLine(iVenda.ToString());
+
+                        }
+
                         break;
                     default:
                         Console.WriteLine("Opção não exisente");
@@ -203,7 +247,6 @@ namespace projeto_Biltiful.Modulo2
                 Console.WriteLine("Localizar - [2]");
                 Console.WriteLine("Excluir - [3]");
                 Console.WriteLine("Impressão por Registro - [4]");
-                Console.WriteLine("Impressão Registro Itens Venda - [5]");
                 Console.WriteLine("Sair - [0]");
 
                 op = int.Parse(Console.ReadLine());
@@ -217,7 +260,7 @@ namespace projeto_Biltiful.Modulo2
                         Console.WriteLine("Digite seu Cpf: ");
                         string cpf = Console.ReadLine();
 
-                        if (venda.clienteValido(cpf))
+                        if (venda.ClienteValido(cpf))
                         {
                             Cadastrar(cpf);
 
@@ -225,6 +268,7 @@ namespace projeto_Biltiful.Modulo2
                         else
                         {
                             Console.WriteLine("Dados invalidos");
+                            Console.ReadKey();
                         }
                         break;
                     case 2:
@@ -242,9 +286,6 @@ namespace projeto_Biltiful.Modulo2
                         break;
                     case 4:
                         ImpressaoRegistros();
-                        break;
-                    case 5:
-                        ImpressaoRegistrosItemVenda();
                         break;
                     default:
                         Console.WriteLine("Fim dos processos");
