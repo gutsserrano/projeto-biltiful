@@ -79,7 +79,7 @@ namespace projeto_Biltiful.Modulo3
 
                 if (!conversao)
                 {
-                    Console.WriteLine("Voce deve digitar um numero!");
+                    Console.WriteLine("Voce deve digitar o ID da compra!");
                     return Menu();
                 }
 
@@ -125,7 +125,7 @@ namespace projeto_Biltiful.Modulo3
             foreach (var linha in File.ReadAllLines(pasta + arquivo))
             {
                 // nao entendi o pq, mas se nao tiver esse try catch aqui, ele da pau...
-                // ele entra no catch direto, entao botei para imprimir vazio, e assim ele continua o programa normalmente
+                // ele entra no catch direto, entao colouei p/ imprimir vazio, e assim ele continua o programa normalmente
                 try {
                     //dividi linha por linha, jogando cada quantidade de caracter em sua respectivel variavel 
                     //vi no codigo do Luan e adaptei 
@@ -137,6 +137,7 @@ namespace projeto_Biltiful.Modulo3
                 } catch (Exception erro)
                 {
                     Console.WriteLine("");
+                   
                 }
             }
                 
@@ -148,7 +149,7 @@ namespace projeto_Biltiful.Modulo3
             ChecarArquivoItemCompra();
 
             List<ItemCompra> itemCompraSalvos = new List<ItemCompra>();
-            foreach (var linha in File.ReadAllLines(pasta + arquivo))
+            foreach (var linha in File.ReadAllLines(pasta + arquivoItem))
             {
                 // nao entendi o pq, mas se nao tiver esse try catch aqui, ele da pau...
                 // ele entra no catch direto, entao botei para imprimir vazio, e assim ele continua o programa normalmente
@@ -162,7 +163,7 @@ namespace projeto_Biltiful.Modulo3
                     int totalItem = int.Parse(linha.Substring(35, 40).Trim());
                     itemCompraSalvos.Add(new ItemCompra(id, DateOnly.Parse(dataCompra), materiaPrima, quantidade, valorUnitario, totalItem));
                 }
-                catch (Exception e)
+                catch (Exception erro)
                 {
                     Console.WriteLine("");
                 }
@@ -216,7 +217,7 @@ namespace projeto_Biltiful.Modulo3
 
             int valorTotal = 0;
             int maximoItens = 0;
-            int opcao;
+            int opcao = 0;
 
             List<ItemCompra> listaItensCompra = new List<ItemCompra>();
 
@@ -230,17 +231,29 @@ namespace projeto_Biltiful.Modulo3
 
                 Console.WriteLine("Informe a quantidade: "); //fazer validaçao do tamanho maximo dos valores, conforme especificado no documento de requesitos
                 int quantidade = int.Parse(Console.ReadLine());
+                do
+                {
+                    if (quantidade > 99999 || quantidade < 1)
+                        Console.WriteLine("Digite um número válido!");
+                } while (quantidade > 99999 || quantidade < 1);
 
                 Console.WriteLine("Informe o valor unitario da sua compra: ");//fazer validaçao do tamanho maximo dos valores, conforme especificado no documento de requesitos
                 int valorUnitario = int.Parse(Console.ReadLine());
+                do
+                {
+                    if (quantidade > 99999 || quantidade < 1)
+                        Console.WriteLine("Digite um número válido!");
+                } while (valorUnitario > 99999 || valorUnitario < 0);
 
                 Console.WriteLine("Informe o valor total das somas do seu item: ");//fazer validaçao do tamanho maximo dos valores, conforme especificado no documento de requesitos
                 int totalItem = int.Parse(Console.ReadLine());
+                totalItem = valorUnitario * quantidade; if (totalItem > 999999)
+                Console.WriteLine("Compra ultrapassou valor maximo permitidp, refaça sua compra!");
 
                 //incrementa o valor total a cada iten 
                 valorTotal += totalItem;
 
-                // passamos o idCompra para identificar que esse iten esta vinculado a compra de id X
+                // passei o idCompra para identificar que esse iten esta vinculado a compra de id X
                 ItemCompra itemCompra = new ItemCompra(idCompra, dataCompra, materiaPrima, quantidade, valorUnitario, totalItem);
                 listaItensCompra.Add(itemCompra);
 
@@ -251,7 +264,7 @@ namespace projeto_Biltiful.Modulo3
 
                 opcao = int.Parse(Console.ReadLine());
 
-            } while (opcao != 0 && maximoItens <3 ); 
+            } while (opcao != 0 && maximoItens < 3 ); 
 
 
             //tentar salvar o item compra, e no final retorna valor total para o cadastro da compra 
@@ -303,34 +316,42 @@ namespace projeto_Biltiful.Modulo3
             bool fornecedorExistente = false;
             foreach (var line in File.ReadAllLines(pasta + arquivoFornecedor))
             {
-                if (cnpj == line)
-                    fornecedorExistente = true;
-                foreach (var item in File.ReadLines(pasta + arquivoFornecedorBloqueado))
+                if (cnpj == line.Substring(0, 14).Trim())
                 {
-                    if (cnpj == item)
+                    DateOnly dataAbertura = DateOnly.Parse(line.Substring(80, 2).Trim() + "/" + line.Substring(82, 4).Trim() + "/" + line.Substring(84, 4).Trim());
+                    dataAbertura = dataAbertura.AddMonths(6);
+                    if (dataAbertura < dataAbertura)
+                        Console.WriteLine("Fonecedor não atende normas de conformidade interna, CNPJ com menos de 6 meses");
+
+                    fornecedorExistente = true;
+                    foreach (var item in File.ReadLines(pasta + arquivoFornecedorBloqueado))
                     {
-                        Console.WriteLine("Fornecedor bloqueado.");
-                        fornecedorExistente = false;
-                    }
-                        
+                        if (cnpj == item)
+                        {
+                            Console.WriteLine("Fornecedor bloqueado.");
+                            fornecedorExistente = false;
+                        }
+
+                    }//"Fonecedor não atende normas de conformidade interna, CNPJ com menos de 6 meses"
                 }
+
             }
             return fornecedorExistente;
         }
 
-        static void LocalizarCompra(int idCompra)
+        static void LocalizarCompra(int idProcurado)
         {
             ChecarArquivoCompra();
 
             List<Compra> compras = new List<Compra>();
             compras = CarregarListaCompras();//carregar lista de compras e colocar na lista instaciada dentro da fuinc;ao 
-            bool encontrou = false;
+            bool encontrou = true;
 
             // foreach percorrendo a lista de compras
             foreach (var compra in compras)
             {
                 // se o id da compra for igual ao id buscado, imprimi o valor
-                if (compra.Id == idCompra)
+                if (compra.Id == idProcurado)
                 {
                     encontrou = true;
                     Console.WriteLine(compra.ToString());
@@ -347,24 +368,24 @@ namespace projeto_Biltiful.Modulo3
             }
         }
 
-        static void LocalizarItensCompra(int idCompra)
+        static void LocalizarItensCompra(int idCompraProcurado)
         {
             ChecarArquivoItemCompra();
 
             List<ItemCompra> itemCompra = new List<ItemCompra>();
             itemCompra = CarregarListaItemCompra();//carregar lista de item e colocar na lista instanciada dentro da função 
-            int maximoItens = 1;
+            int maximoItens = 0;
 
             // foreach percorrendo os itens de compra
             foreach (var item in itemCompra)
             {
                 // se o id do item for igual ao id da compra, retornamos
-                if (item.Id == idCompra)
+                if (item.Id == idCompraProcurado)
                 {
                     Console.WriteLine(item.ToString());
                     maximoItens++;
 
-                    // se for o numero maximo de itens, paramos o for
+                    // se for o numero maximo de itens, para o for
                     if (maximoItens == 3)
                         break;
                 }
@@ -482,7 +503,7 @@ namespace projeto_Biltiful.Modulo3
             } while (opcao != 0);
         }
 
-        /*static ItemCompra CadastroItem()
+        static ItemCompra CadastroItem()
         {
             int identificadorItemCompra = idCompra, materiaPrima, quantidade, valorUnitario, totalItem;
             DateOnly dataCompra;
@@ -505,6 +526,6 @@ namespace projeto_Biltiful.Modulo3
             } while (totalItem > 999999);
             ItemCompra itemCompra = new ItemCompra(idCompra, dataCompra, materiaPrima, quantidade, valorUnitario, totalItem);
             return itemCompra;
-        }*/
+        }
     }
 }
