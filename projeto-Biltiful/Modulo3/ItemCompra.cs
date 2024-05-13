@@ -46,7 +46,7 @@ namespace projeto_Biltiful.Modulo3
                    $"\nTotal item: {TotalItem}";
         }
 
-        public string FormatarParaArquivo()
+        public string FormatarParaArquivo() //código do luan adapitado, funciona ta otimo 
         {
             return $"{ConverterIdParaArquivo(Id)}" +
                    $"{ConverterDataParaArquivo(DataCompra)}" +
@@ -88,11 +88,11 @@ namespace projeto_Biltiful.Modulo3
         }
 
         //imprimir
-        public void ImprimirItemCompra()
-        {
-            Console.WriteLine(Id + "\n" + MateriaPrima + "\n" + Quantidade + "\n" + ValorUnitario + "\n" + TotalItem);
+        //public void ImprimirItemCompra()
+        //{
+        //    Console.WriteLine(Id + "\n" + MateriaPrima + "\n" + Quantidade + "\n" + ValorUnitario + "\n" + TotalItem);
             
-        }
+        //}
 
         // validacão
         //Verificação: quantidade (maior que 0,01 e menor que 99999), valor unitario (maior de 0,01 e menor que 99999)

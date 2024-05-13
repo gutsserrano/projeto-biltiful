@@ -53,7 +53,7 @@ namespace projeto_Biltiful.Modulo3
         private string ConverterValorParaArquivo(float valor)
         {
 
-            return valor.ToString().Replace(",", "").PadLeft(7, '0');
+            return valor.ToString().Replace(",", "").PadLeft(7, '0');//codigo do Luan 
         }
 
         private string ConverterIdParaArquivo(int id)

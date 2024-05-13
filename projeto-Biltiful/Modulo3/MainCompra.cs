@@ -87,7 +87,7 @@ namespace projeto_Biltiful.Modulo3
 
             return option;
         }
-
+        //checo se os arquivos existem
         static void ChecarArquivoCompra()
         {
             if (!File.Exists(pasta + arquivo))
@@ -106,7 +106,7 @@ namespace projeto_Biltiful.Modulo3
             }
         }
 
-        static void RecuperarId()
+        static void RecuperarId() // carrega lista de compras, id é referente lista de compras... carrega lista de compra já salva e conta registros, se for maior que zero joga no id compras se nào o id compras passa a valer 1 
         {
             ChecarArquivoCompra();
 
@@ -117,7 +117,7 @@ namespace projeto_Biltiful.Modulo3
                 idCompra = compra.Count;
         }
 
-        static List<Compra> CarregarListaCompras()
+        static List<Compra> CarregarListaCompras()//le o arquivo de compras que já ta salvo 
         {
             ChecarArquivoCompra();
 
@@ -127,12 +127,14 @@ namespace projeto_Biltiful.Modulo3
                 // nao entendi o pq, mas se nao tiver esse try catch aqui, ele da pau...
                 // ele entra no catch direto, entao botei para imprimir vazio, e assim ele continua o programa normalmente
                 try {
+                    //dividi linha por linha, jogando cada quantidade de caracter em sua respectivel variavel 
+                    //vi no codigo do Luan e adaptei 
                     int id = int.Parse(linha.Substring(0, 4).Trim());
                     string dataCompra = linha.Substring(5, 12).Trim();
                     string fornecedor = linha.Substring(13, 26).Trim();
                     int valorTotal = int.Parse(linha.Substring(27, 33).Trim());
                     comprasSalvas.Add(new Compra(id, DateOnly.Parse(dataCompra), fornecedor, valorTotal));
-                } catch (Exception e)
+                } catch (Exception erro)
                 {
                     Console.WriteLine("");
                 }
@@ -183,7 +185,7 @@ namespace projeto_Biltiful.Modulo3
 
             // verificar se o fornecedor esta bloqueado, so vai prosseguir com o cadastro no caso de fornecedor desbloqueado
             string fornecedor;
-            // adicionar o do while no final, quando tudo estiver cadastrado, sem estar tudo cadastrado ele quebra o programa nessa parte
+            // adicionar o do while no final, quando o fornecedor estiver cadastrado, sem estar tudo cadastrado ele quebra o programa nessa parte
             //do
             //{
                 Console.WriteLine("Informe o fornecedor: ");
@@ -202,7 +204,7 @@ namespace projeto_Biltiful.Modulo3
             {
                 SalvarCompras(compras);
             }
-            catch (Exception e)
+            catch (Exception erro)
             {
                 Console.WriteLine("Ocorreu um erro ao salvar sua compra, favor tentar novamente.");
             }
@@ -216,27 +218,26 @@ namespace projeto_Biltiful.Modulo3
             int maximoItens = 0;
             int opcao;
 
-            if (!File.Exists(pasta + arquivoItem))
-                File.Create(pasta + arquivoItem);
-
             List<ItemCompra> listaItensCompra = new List<ItemCompra>();
 
+            //preciso verificar porque o do while nào ta saindo quando completa 3 itens
             do
             {
                 Console.WriteLine("Cadastrar item.");
                                 
                 Console.WriteLine("Informe Materia Prima: ");
-                int materiaPrima = int.Parse(Console.ReadLine());
+                int materiaPrima = int.Parse(Console.ReadLine());//fazer validaçao do tamanho maximo dos valores, conforme especificado no documento de requesitos
 
-                Console.WriteLine("Informe a quantidade: ");
+                Console.WriteLine("Informe a quantidade: "); //fazer validaçao do tamanho maximo dos valores, conforme especificado no documento de requesitos
                 int quantidade = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Informe o valor unitario da sua compra: ");
+                Console.WriteLine("Informe o valor unitario da sua compra: ");//fazer validaçao do tamanho maximo dos valores, conforme especificado no documento de requesitos
                 int valorUnitario = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Informe o valor total das somas do seu item: ");
+                Console.WriteLine("Informe o valor total das somas do seu item: ");//fazer validaçao do tamanho maximo dos valores, conforme especificado no documento de requesitos
                 int totalItem = int.Parse(Console.ReadLine());
 
+                //incrementa o valor total a cada iten 
                 valorTotal += totalItem;
 
                 // passamos o idCompra para identificar que esse iten esta vinculado a compra de id X
@@ -250,14 +251,15 @@ namespace projeto_Biltiful.Modulo3
 
                 opcao = int.Parse(Console.ReadLine());
 
-            } while (opcao != 0);
+            } while (opcao != 0 && maximoItens <3 ); 
 
-            
+
+            //tentar salvar o item compra, e no final retorna valor total para o cadastro da compra 
             try
             {
                 SalvarItensCompra(listaItensCompra);
             }
-            catch (Exception e)
+            catch (Exception erro)
             {
                 Console.WriteLine("Ocorreu um erro ao salvar os itens da sua compra, favor tentar novamente.");
             }
@@ -293,7 +295,7 @@ namespace projeto_Biltiful.Modulo3
             sw.Close();
         }
 
-        static bool ChecarFornecedor(string cnpj)
+        static bool ChecarFornecedor(string cnpj) //checa fornecedor para ver se ta bloqueado ou não 
         {
             string arquivoFornecedor = "Fornecedor.dat";
             string arquivoFornecedorBloqueado = "Bloqueado.dat";
@@ -321,18 +323,18 @@ namespace projeto_Biltiful.Modulo3
             ChecarArquivoCompra();
 
             List<Compra> compras = new List<Compra>();
-            compras = CarregarListaCompras();
+            compras = CarregarListaCompras();//carregar lista de compras e colocar na lista instaciada dentro da fuinc;ao 
             bool encontrou = false;
 
             // foreach percorrendo a lista de compras
             foreach (var compra in compras)
             {
-                // se o id da compra for igual ao id buscado, imprimimos o valor
+                // se o id da compra for igual ao id buscado, imprimi o valor
                 if (compra.Id == idCompra)
                 {
                     encontrou = true;
                     Console.WriteLine(compra.ToString());
-                    LocalizarItensCompra(idCompra);
+                    LocalizarItensCompra(idCompra);//se encontrou a compra, precisa imprimir os intens da compra 
                     Console.ReadKey();
                     break;
                 }
@@ -350,7 +352,7 @@ namespace projeto_Biltiful.Modulo3
             ChecarArquivoItemCompra();
 
             List<ItemCompra> itemCompra = new List<ItemCompra>();
-            itemCompra = CarregarListaItemCompra();
+            itemCompra = CarregarListaItemCompra();//carregar lista de item e colocar na lista instanciada dentro da função 
             int maximoItens = 1;
 
             // foreach percorrendo os itens de compra
@@ -367,6 +369,7 @@ namespace projeto_Biltiful.Modulo3
                         break;
                 }
             }
+            //obrigatoriamente uma compra precisa ter pelo menos um item então nào retorna mensagem de não encntrado 
         }
 
         static void ExcluirCompra(int idCompra)
@@ -389,6 +392,7 @@ namespace projeto_Biltiful.Modulo3
                     Console.WriteLine("\nCompra excluida com sucesso.");
                     // salvar novamente o arquivo de compras removendo a compra excluida
                     SalvarCompras(compras);
+                    Console.ReadKey();
                     break;
                 }
             }
@@ -407,19 +411,20 @@ namespace projeto_Biltiful.Modulo3
             itemCompra = CarregarListaItemCompra();
             int maximoItens = 1;
 
+            //foreach para percorrer todos os itens do item compra 
             foreach (var item in itemCompra)
             {
-                if (item.Id == idCompra)
+                if (item.Id == idCompra)//se encontrar o id do item compra entra no if 
                 {
-                    itemCompra.Remove(item);
+                    itemCompra.Remove(item);//remove o item do item compra
                     maximoItens++;
 
-                    if (maximoItens == 3)
+                    if (maximoItens == 3)//se atingior o maximo de 3 itens encontrados, para o for. 
                         break;
                 }
             }
 
-            // salvar novamente o arquivo de compras removendo a compra excluida
+            // salvar novamente o arquivo de itens de compras removendo os itens excluidos
             SalvarItensCompra(itemCompra);
         }
 
@@ -448,29 +453,29 @@ namespace projeto_Biltiful.Modulo3
                     case 1:
                         try
                         {
-                            index++;
+                            index++;//incrementa o index para pular pra proxima compra
                             Console.WriteLine(compras[index]);
                         } catch (Exception erro)
                         {
-                            Console.WriteLine("Indice invalido.");
+                            Console.WriteLine("Indice invalido.");//se estiver no ultimo registro, retorna que o indice é invalido
                         }                        
                         break;
                     case 2:
                         try
                         {
-                            index--;
+                            index--;//decrementa o index pra pular para a compra anterior 
                             Console.WriteLine(compras[index]);
                         }
                         catch (Exception erro)
                         {
-                            Console.WriteLine("Indice invalido.");
+                            Console.WriteLine("Indice invalido.");//se estiver no primeiro registro avisa que o indice é invalido 
                         }
                         break;
                     case 3:
-                        Console.WriteLine(compras.First().ToString());
+                        Console.WriteLine(compras.First().ToString());//funçao para mostrar a primeira compra 
                         break;
                     case 4:
-                        Console.WriteLine(compras.Last().ToString());
+                        Console.WriteLine(compras.Last().ToString());//funçao para mostrar a ultima compra 
                         break;
                 }
 
