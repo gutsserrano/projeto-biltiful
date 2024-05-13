@@ -1,4 +1,5 @@
-﻿using System;
+﻿using projeto_Biltiful.Modulo1.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,7 +41,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             return listaProdutos;
         }
 
-        internal float RecuperarValor(string produto)
+        public float RecuperarValor(string produto)
         {
             float preco = 0;
 
@@ -55,7 +56,7 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             return preco;
         }
 
-        internal string RecuperarEstaAtivo(string id)
+        public string RecuperarEstaAtivo(string id)
         {
             var estado = "I";
 
@@ -63,11 +64,42 @@ namespace projeto_Biltiful.Modulo2.ManipuladorArquivo
             {
                 if (id.Equals(linha.Substring(0, 13)))
 
-                    estado = linha.Substring(56, 1);
+                    estado = linha.Substring(linha.Length-1, 1);
 
             }
 
             return estado;
+        }
+
+        public DateOnly ConverterParaData(string data)
+        {
+            string dia = data.Substring(0, 2);
+            string mes = data.Substring(2, 2);
+            string ano = data.Substring(4, 4);
+
+            return DateOnly.Parse($"{dia}/{mes}/{ano}");
+        }
+        public DateOnly RecuperarEData(string? produto) //concertar
+        {
+            var dataCompra = new DateOnly();
+
+            foreach (string linha in File.ReadAllLines(CaminhoDiretorio + CaminhoArquivo))
+            {
+                if (produto.Equals(linha.Substring(0, 13)))
+
+                    dataCompra = ConverterParaData(linha.Substring(38, 8));
+
+            }
+
+            return dataCompra;
+        }
+        public string RecuperarPrecoeDataNascimento(string produto)
+        {
+            DateOnly nascimento = RecuperarEData(produto);
+            float preco = RecuperarValor(produto);
+
+            return " Valor: " + preco.ToString().Insert(preco.ToString().Length - 2, ",") + " Datada compra: " + nascimento;
+
         }
     }
 }

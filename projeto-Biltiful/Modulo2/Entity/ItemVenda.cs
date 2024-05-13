@@ -1,6 +1,8 @@
-﻿using projeto_Biltiful.Modulo2.ManipuladorArquivo;
+﻿using projeto_Biltiful.Modulo1.Entidades;
+using projeto_Biltiful.Modulo2.ManipuladorArquivo;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -32,41 +34,32 @@ namespace projeto_Biltiful.Modulo2.Entity
         // Métodos públicos da classe
         public string FormatarParaArquivo()
         {
-            return $"{ConverterIdParaArquivo(idVenda)}" +
+            return $"{idVenda.ToString().PadLeft(5, '0')}" +
                     $"{produto}" +
-                    $"{ConverterQuantidadeParaArquivo(quantidade)}" +
-                    $"{ConverterValorParaArquivo(valorUnitario)}" +
-                    $"{ConverterTotalItemParaArquivo(totalItem)}";
+                    $"{quantidade.ToString().PadLeft(3, '0')}" +
+                    $"{valorUnitario.ToString().Replace(",", "").PadLeft(5, '0')}" +
+                    $"{totalItem.ToString().Replace(",", "").PadLeft(6, '0')}";
 
         }
 
         public override string? ToString()
         {
-            return "id da Venda : " + idVenda + " Produto: " + produto + " Quantidade: " + quantidade
+            return "id da Venda : " + idVenda + " Produto: " + ConverterProdutoString(produto) + " Quantidade: " + quantidade
                 + " Valor Unitario: " + valorUnitario.ToString().Insert(valorUnitario.ToString().Length - 2, ",") +
                 " Total Item: " + totalItem.ToString().Insert(totalItem.ToString().Length - 2, ",");
         }
 
-        // Métodos privados de conversão
-        private string ConverterValorParaArquivo(float valor)
+        public string ConverterProdutoString(string produto)
         {
-            return valor.ToString().Replace(",", "").PadLeft(5, '0');
+            string path = @"C:\Biltiful\";
+            string file = "Cosmetico.dat";
+
+            RecuperarArquivosDeProduto rpC = new RecuperarArquivosDeProduto(path, file);
+            string nomeData = rpC.RecuperarPrecoeDataNascimento(produto);
+
+            return nomeData;
         }
 
-        private string ConverterTotalItemParaArquivo(float totalItem)
-        {
-            return totalItem.ToString().Replace(",", "").PadLeft(6, '0');
-        }
-
-        private string ConverterQuantidadeParaArquivo(int quantidade)
-        {
-            return quantidade.ToString().PadLeft(3, '0');
-        }
-
-        private string ConverterIdParaArquivo(int id)
-        {
-            return id.ToString().PadLeft(5, '0');
-        }
 
         // Métodos privados de manipulação de dados
         public float GerarItemVenda(string cpf, int id)
@@ -109,7 +102,7 @@ namespace projeto_Biltiful.Modulo2.Entity
                 }
 
                 valorTotal += totalItem;
-                ItemVenda itemVenda = new ItemVenda(id, produto, quantidadeProd, valorProduto, totalItem);
+                ItemVenda itemVenda = new ItemVenda(id, produto, quantidadeItem, valorProduto, totalItem);
                 listaCadastro.Add(itemVenda);
             }
 
@@ -118,7 +111,7 @@ namespace projeto_Biltiful.Modulo2.Entity
             return valorTotal;
         }
 
-        private bool ValidarAtivo(string? produto)
+        public bool ValidarAtivo(string? produto)
         {
             string path = @"C:\Biltiful\";
             string file = "Cosmetico.dat";
@@ -129,7 +122,7 @@ namespace projeto_Biltiful.Modulo2.Entity
             return estaAtivo.Equals("A");
         }
 
-        private void CadastrarNovoItemNoArquivo(List<ItemVenda> itemVenda)
+        public void CadastrarNovoItemNoArquivo(List<ItemVenda> itemVenda)
         {
             string path = @"C:\Biltiful\";
             string file = "ItemVenda.dat";
@@ -141,7 +134,7 @@ namespace projeto_Biltiful.Modulo2.Entity
             Console.WriteLine("Cadastrado");
         }
 
-        private int ObterQuantidadeItem()
+        public int ObterQuantidadeItem()
         {
             int quantidadeItem = 0;
             do
@@ -153,7 +146,7 @@ namespace projeto_Biltiful.Modulo2.Entity
             return quantidadeItem;
         }
 
-        private int ObterQuantidadeProdutos()
+        public int ObterQuantidadeProdutos()
         {
             int quantidadeProd = 0;
             do
@@ -172,7 +165,7 @@ namespace projeto_Biltiful.Modulo2.Entity
             return quantidadeProd;
         }
 
-        private float ObterValorProduto(string? produto)
+        public float ObterValorProduto(string? produto)
         {
             string path = @"C:\Biltiful\";
             string file = "Cosmetico.dat";
@@ -188,7 +181,7 @@ namespace projeto_Biltiful.Modulo2.Entity
             return precoProduto;
         }
 
-        private bool ValidarProduto(string? produto)
+        public bool ValidarProduto(string? produto)
         {
             string path = @"C:\Biltiful\";
             string file = "Cosmetico.dat";
